@@ -35,3 +35,7 @@ SET
 	amount = 28
 WHERE
 	id = 1012;
+	
+/* DELETE ITEM RECORD */
+DELETE FROM items
+WHERE id = 1012;
