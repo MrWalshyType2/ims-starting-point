@@ -39,3 +39,7 @@ WHERE
 /* DELETE ITEM RECORD */
 DELETE FROM items
 WHERE id = 1012;
+
+/* CREATE ORDER */
+INSERT INTO orders(fk_customer_id, fk_item_id)
+VALUES(1012);
