@@ -60,3 +60,9 @@ SELECT fk_order_id, fk_item_id, quantity FROM order_items
 WHERE id = 13;
 
 # SELECT oi.fk_item_id, oi.quantity, o.
+
+/* DELETE ITEM FROM ORDER */
+DELETE FROM order_items
+WHERE
+	fk_order_id = 13,
+	fk_item_id = 1012;
