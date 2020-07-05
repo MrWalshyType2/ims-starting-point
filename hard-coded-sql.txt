@@ -46,3 +46,7 @@ VALUES(1012);
 
 /* VIEW ALL ORDERS */
 SELECT * FROM orders;
+
+/* DELETE ORDER */
+DELETE FROM orders
+WHERE id = 13;
