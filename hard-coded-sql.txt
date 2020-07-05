@@ -26,3 +26,12 @@ VALUES('Bouncy Castle', 25, 203);
 
 /* VIEW ALL ITEMS */
 SELECT * FROM items;
+
+/* UPDATE ITEM RECORD */
+UPDATE items
+SET 
+	item_name = 'Freddos Bouncing Castle',
+	value = 42,
+	amount = 28
+WHERE
+	id = 1012;
