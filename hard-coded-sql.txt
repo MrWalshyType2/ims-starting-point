@@ -15,3 +15,7 @@ SET
 	password = 'groggo'
 WHERE
 	id = 1012;
+	
+/* DELETE CUSTOMER RECORD */
+DELETE FROM customers
+WHERE id = 1012;
