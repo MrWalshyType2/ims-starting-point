@@ -13,7 +13,6 @@ create table if not exists ims.orders(
 	id int primary key auto_increment not null unique,
     fk_customer_id int not null,
     fk_item_id int not null,
-    customer varchar(32) not null,
     foreign key (fk_customer_id) references customers(id),
     foreign key (fk_item_id) references items(id)
 );
