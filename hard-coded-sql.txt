@@ -4,3 +4,14 @@ VALUES('Grognak', 'The Barbarian', 'grogbar@gmail.com', 'groggs99', 'meGrog101')
 
 /* VIEW ALL CUSTOMERS */
 SELECT * FROM customers;
+
+/* UPDATE CUSTOMER RECORD */
+UPDATE customers
+SET 
+	first_name = 'Grok',
+	surname = 'Barb',
+	email = 'grok.barb@gmail.com',
+	username = 'grokb',
+	password = 'groggo'
+WHERE
+	id = 1012;
