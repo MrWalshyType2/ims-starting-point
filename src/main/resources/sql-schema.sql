@@ -24,3 +24,9 @@ create table if not exists ims.items(
     value int not null,
     amount int not null
 );
+
+create table if not exists ims.order_items(
+	fk_order_id int not null,
+    fk_item_id int not null,
+    quantity int not null
+);
