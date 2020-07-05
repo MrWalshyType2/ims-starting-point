@@ -1,2 +1,3 @@
+/* ADD CUSTOMER RECORD */
 INSERT INTO customers(first_name, surname, email, username, password)
 VALUES('Grognak', 'The Barbarian', 'grogbar@gmail.com', 'groggs99', 'meGrog101');
