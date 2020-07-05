@@ -19,3 +19,7 @@ WHERE
 /* DELETE CUSTOMER RECORD */
 DELETE FROM customers
 WHERE id = 1012;
+
+/* ADD ITEM RECORD */
+INSERT INTO items(item_name, value, amount)
+VALUES('Bouncy Castle', 25, 203);
