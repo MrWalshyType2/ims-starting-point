@@ -1,0 +1,70 @@
+/* ADD CUSTOMER RECORD */
+INSERT INTO customers(first_name, surname, email, username, password)
+VALUES('Grognak', 'The Barbarian', 'grogbar@gmail.com', 'groggs99', 'meGrog101');
+
+/* VIEW ALL CUSTOMERS */
+SELECT * FROM customers;
+
+/* UPDATE CUSTOMER RECORD */
+UPDATE customers
+SET 
+	first_name = 'Grok',
+	surname = 'Barb',
+	email = 'grok.barb@gmail.com',
+	username = 'grokb',
+	password = 'groggo'
+WHERE
+	id = 1012;
+	
+/* DELETE CUSTOMER RECORD */
+DELETE FROM customers
+WHERE id = 1012;
+
+/* ADD ITEM RECORD */
+INSERT INTO items(item_name, value, amount)
+VALUES('Bouncy Castle', 25, 203);
+
+/* VIEW ALL ITEMS */
+SELECT * FROM items;
+
+/* UPDATE ITEM RECORD */
+UPDATE items
+SET 
+	item_name = 'Freddos Bouncing Castle',
+	value = 42,
+	amount = 28
+WHERE
+	id = 1012;
+	
+/* DELETE ITEM RECORD */
+DELETE FROM items
+WHERE id = 1012;
+
+/* CREATE ORDER */
+INSERT INTO orders(fk_customer_id, fk_item_id)
+VALUES(1012);
+
+/* VIEW ALL ORDERS */
+SELECT * FROM orders;
+
+/* DELETE ORDER */
+DELETE FROM orders
+WHERE id = 13;
+
+/* ADD ITEM TO ORDER */
+INSERT INTO order_items(fk_order_id, fk_item_id, quantity)
+VALUES(13, 1012, 4);
+
+/* CALCULATE ORDER COST */
+SELECT SUM(order_items.quantity*items.value) AS Cost
+FROM customers
+JOIN orders ON customers.id=orders.fk_customer_id
+JOIN order_items ON orders.id=order_items.fk_order_id
+JOIN items ON order_items.fk_item_id=items.id
+WHERE customers.id=1;
+
+/* DELETE ITEM FROM ORDER */
+DELETE FROM order_items
+WHERE
+	fk_order_id = 13,
+	fk_item_id = 1012;
