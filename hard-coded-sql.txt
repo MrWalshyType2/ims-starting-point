@@ -56,11 +56,12 @@ INSERT INTO order_items(fk_order_id, fk_item_id, quantity)
 VALUES(13, 1012, 4);
 
 /* CALCULATE ORDER COST */
-SELECT orders.id as Order_ID, customers.first_name, items.item_name
+SELECT SUM(order_items.quantity*items.value) AS Cost
 FROM customers
 JOIN orders ON customers.id=orders.fk_customer_id
 JOIN order_items ON orders.id=order_items.fk_order_id
-JOIN items ON order_items.fk_item_id=items.id;
+JOIN items ON order_items.fk_item_id=items.id
+WHERE customers.id=1;
 
 /* DELETE ITEM FROM ORDER */
 DELETE FROM order_items
