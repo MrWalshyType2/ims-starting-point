@@ -1,5 +1,7 @@
 package com.qa.ims.persistence.dao;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -23,6 +25,13 @@ public class OrderDaoMysql implements Dao<Order> {
 		this.jdbcConnectionUrl = jdbcConnectionUrl;
 		this.username = username;
 		this.password = password;
+	}
+
+	Order orderFromResult(ResultSet resultSet) throws SQLException {
+		long id = resultSet.getLong("id");
+		long fkCustomerId = resultSet.getLong("fk_customer_id");
+
+		return new Order(id, fkCustomerId);
 	}
 
 	@Override
