@@ -82,8 +82,15 @@ public class OrderDaoMysql implements Dao<Order> {
 	}
 
 	@Override
-	public Order create(Order t) {
-		// TODO Auto-generated method stub
+	public Order create(Order order) {
+		try (Connection connection = DriverManager.getConnection(jdbcConnectionUrl, username, password);
+				Statement statement = connection.createStatement();) {
+			statement.executeUpdate("INSERT INTO orders(fk_customer_id)" + " VALUES('" + order.getFkCustomerId() + ")");
+			return readLatest();
+		} catch (SQLException e) {
+			LOGGER.debug(e.getStackTrace());
+			LOGGER.error(e.getMessage());
+		}
 		return null;
 	}
 
