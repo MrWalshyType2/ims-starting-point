@@ -6,15 +6,15 @@ VALUES('"firstName + "', '" + surname + "', '" + surname + "', '" + email + "', 
 SELECT * FROM customers;
 
 /* UPDATE CUSTOMER RECORD */
-UPDATE customers
+"UPDATE customers
 SET 
-	first_name = 'Grok',
-	surname = 'Barb',
-	email = 'grok.barb@gmail.com',
-	username = 'grokb',
-	password = 'groggo'
+	first_name = '"+ firstName"',
+	surname = '"+ surname"',
+	email = '"+ email"',
+	username = '"+ username"',
+	password = '"+ password"'
 WHERE
-	id = 1012;
+	id = " + id;
 	
 /* DELETE CUSTOMER RECORD */
 DELETE FROM customers
