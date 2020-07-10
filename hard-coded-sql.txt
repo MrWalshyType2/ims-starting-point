@@ -45,11 +45,11 @@ WHERE id = " + id;
 VALUES(" + customerId + ")";
 
 /* VIEW ALL ORDERS */
-SELECT * FROM orders;
+"SELECT * FROM orders";
 
 /* DELETE ORDER */
-DELETE FROM orders
-WHERE id = 13;
+"DELETE FROM orders
+WHERE id = " + id;
 
 /* ADD ITEM TO ORDER */
 INSERT INTO order_items(fk_order_id, fk_item_id, quantity)
