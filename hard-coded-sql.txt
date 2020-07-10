@@ -64,7 +64,7 @@ JOIN items ON order_items.fk_item_id=items.id
 WHERE customers.id=" + id;
 
 /* DELETE ITEM FROM ORDER */
-DELETE FROM order_items
+"DELETE FROM order_items
 WHERE
-	fk_order_id = 13,
-	fk_item_id = 1012;
+	fk_order_id =" + orderId + ",
+	fk_item_id =" + itemId;
