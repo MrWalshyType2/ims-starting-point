@@ -3,7 +3,7 @@
 VALUES('"firstName + "', '" + surname + "', '" + surname + "', '" + email + "', '" + username + "', '" + password"'); 
 
 /* VIEW ALL CUSTOMERS */
-SELECT * FROM customers;
+"SELECT * FROM customers";
 
 /* UPDATE CUSTOMER RECORD */
 "UPDATE customers
@@ -17,8 +17,8 @@ WHERE
 	id = " + id;
 	
 /* DELETE CUSTOMER RECORD */
-DELETE FROM customers
-WHERE id = 1012;
+"DELETE FROM customers
+WHERE id = " + id;
 
 /* ADD ITEM RECORD */
 INSERT INTO items(item_name, value, amount)
