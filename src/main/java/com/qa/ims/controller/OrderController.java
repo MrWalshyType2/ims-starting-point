@@ -58,15 +58,17 @@ public class OrderController implements CrudController<Order> {
 		Order order = new OrderDaoMysql().readOrder(orderId);
 		Item item = new ItemDaoMysql().readItem(itemId);
 		order = new OrderDaoMysql().update(order, item, quantity);
-		LOGGER.info("Item updated!");
+		LOGGER.info("Order updated!"); // Fixed this
 
 		return order;
 	}
 
 	@Override
 	public void delete() {
-		// TODO Auto-generated method stub
-
+		LOGGER.info("Please enter the id of the order to be deleted");
+		long orderId = Long.getLong(getInput());
+		orderService.delete(orderId);
+		LOGGER.info("Item deleted");
 	}
 
 }
