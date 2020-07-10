@@ -52,8 +52,8 @@ VALUES(" + customerId + ")";
 WHERE id = " + id;
 
 /* ADD ITEM TO ORDER */
-INSERT INTO order_items(fk_order_id, fk_item_id, quantity)
-VALUES(13, 1012, 4);
+"INSERT INTO order_items(fk_order_id, fk_item_id, quantity)
+VALUES(" + orderId + ", " + itemId + ", " + quantity + ")";
 
 /* CALCULATE ORDER COST */
 SELECT SUM(order_items.quantity*items.value) AS Cost
