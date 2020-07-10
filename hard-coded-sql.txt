@@ -1,70 +1,70 @@
 /* ADD CUSTOMER RECORD */
-INSERT INTO customers(first_name, surname, email, username, password)
-VALUES('Grognak', 'The Barbarian', 'grogbar@gmail.com', 'groggs99', 'meGrog101');
+"INSERT INTO customers(first_name, surname, email, username, password)
+VALUES('"firstName + "', '" + surname + "', '" + surname + "', '" + email + "', '" + username + "', '" + password"')"; 
 
 /* VIEW ALL CUSTOMERS */
-SELECT * FROM customers;
+"SELECT * FROM customers";
 
 /* UPDATE CUSTOMER RECORD */
-UPDATE customers
+"UPDATE customers
 SET 
-	first_name = 'Grok',
-	surname = 'Barb',
-	email = 'grok.barb@gmail.com',
-	username = 'grokb',
-	password = 'groggo'
+	first_name = '"+ firstName"',
+	surname = '"+ surname"',
+	email = '"+ email"',
+	username = '"+ username"',
+	password = '"+ password"'
 WHERE
-	id = 1012;
+	id = " + id;
 	
 /* DELETE CUSTOMER RECORD */
-DELETE FROM customers
-WHERE id = 1012;
+"DELETE FROM customers
+WHERE id = " + id;
 
 /* ADD ITEM RECORD */
-INSERT INTO items(item_name, value, amount)
-VALUES('Bouncy Castle', 25, 203);
+"INSERT INTO items(item_name, value, amount)
+VALUES('"itemName + "', " + value + ", " + amount + ")";
 
 /* VIEW ALL ITEMS */
-SELECT * FROM items;
+"SELECT * FROM items";
 
 /* UPDATE ITEM RECORD */
-UPDATE items
+"UPDATE items
 SET 
-	item_name = 'Freddos Bouncing Castle',
-	value = 42,
-	amount = 28
+	item_name = '" + itemName + "',
+	value = "+ value",
+	amount = "+ amount"
 WHERE
-	id = 1012;
+	id = " + id;
 	
 /* DELETE ITEM RECORD */
-DELETE FROM items
-WHERE id = 1012;
+"DELETE FROM items
+WHERE id = " + id;
 
 /* CREATE ORDER */
-INSERT INTO orders(fk_customer_id, fk_item_id)
-VALUES(1012);
+"INSERT INTO orders(fk_customer_id)
+VALUES(" + customerId + ")";
 
 /* VIEW ALL ORDERS */
-SELECT * FROM orders;
+"SELECT * FROM orders";
 
 /* DELETE ORDER */
-DELETE FROM orders
-WHERE id = 13;
+"DELETE FROM orders
+WHERE id = " + id;
 
 /* ADD ITEM TO ORDER */
-INSERT INTO order_items(fk_order_id, fk_item_id, quantity)
-VALUES(13, 1012, 4);
+"INSERT INTO order_items(fk_order_id, fk_item_id, quantity)
+VALUES(" + orderId + ", " + itemId + ", " + quantity + ")";
 
 /* CALCULATE ORDER COST */
-SELECT SUM(order_items.quantity*items.value) AS Cost
+"SELECT SUM(order_items.quantity*items.value) AS Cost
 FROM customers
 JOIN orders ON customers.id=orders.fk_customer_id
 JOIN order_items ON orders.id=order_items.fk_order_id
 JOIN items ON order_items.fk_item_id=items.id
-WHERE customers.id=1;
+WHERE customers.id=" + id;
 
 /* DELETE ITEM FROM ORDER */
-DELETE FROM order_items
+"DELETE FROM order_items
 WHERE
-	fk_order_id = 13,
-	fk_item_id = 1012;
+	fk_order_id =" + orderId + ",
+	fk_item_id =" + itemId;
