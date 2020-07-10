@@ -41,8 +41,8 @@ WHERE
 WHERE id = " + id;
 
 /* CREATE ORDER */
-INSERT INTO orders(fk_customer_id, fk_item_id)
-VALUES(1012);
+"INSERT INTO orders(fk_customer_id)
+VALUES(" + customerId + ")";
 
 /* VIEW ALL ORDERS */
 SELECT * FROM orders;
