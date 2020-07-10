@@ -1,7 +1,11 @@
 package com.qa.ims.persistence.dao;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -39,13 +43,45 @@ public class ItemDaoMysql implements Dao<Item> {
 
 	@Override
 	public List<Item> readAll() {
-		// TODO Auto-generated method stub
+		try (Connection connection = DriverManager.getConnection(jdbcConnectionUrl, username, password);
+				Statement statement = connection.createStatement();
+				ResultSet resultSet = statement.executeQuery("select * from items");) {
+			ArrayList<Item> items = new ArrayList<>();
+			while (resultSet.next()) {
+				items.add(itemFromResultSet(resultSet));
+			}
+			return items;
+		} catch (SQLException e) {
+			LOGGER.debug(e.getStackTrace());
+			LOGGER.error(e.getMessage());
+		}
+		return new ArrayList<>();
+	}
+
+	public Item readLatest() {
+		try (Connection connection = DriverManager.getConnection(jdbcConnectionUrl, username, password);
+				Statement statement = connection.createStatement();
+				ResultSet resultSet = statement.executeQuery("SELECT * FROM items ORDER BY id DESC LIMIT 1");) {
+			resultSet.next();
+			return itemFromResultSet(resultSet);
+		} catch (Exception e) {
+			LOGGER.debug(e.getStackTrace());
+			LOGGER.error(e.getMessage());
+		}
 		return null;
 	}
 
 	@Override
-	public Item create(Item t) {
-		// TODO Auto-generated method stub
+	public Item create(Item item) {
+		try (Connection connection = DriverManager.getConnection(jdbcConnectionUrl, username, password);
+				Statement statement = connection.createStatement();) {
+			statement.executeUpdate("INSERT INTO items(item_name, value, amount)" + " VALUES('" + item.getItemName()
+					+ "', " + item.getValue() + ", " + item.getAmount() + ")");
+			return readLatest();
+		} catch (SQLException e) {
+			LOGGER.debug(e.getStackTrace());
+			LOGGER.error(e.getMessage());
+		}
 		return null;
 	}
 
