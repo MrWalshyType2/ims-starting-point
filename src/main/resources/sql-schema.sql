@@ -12,9 +12,7 @@ create table if not exists ims.customers(
 create table if not exists ims.orders(
 	id int primary key auto_increment not null unique,
     fk_customer_id int not null,
-    fk_item_id int not null,
-    foreign key (fk_customer_id) references customers(id),
-    foreign key (fk_item_id) references items(id)
+    foreign key (fk_customer_id) references customers(id)
 );
 
 create table if not exists ims.items(
