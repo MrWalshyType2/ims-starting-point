@@ -22,19 +22,19 @@ WHERE id = " + id;
 
 /* ADD ITEM RECORD */
 "INSERT INTO items(item_name, value, amount)
-VALUES('"itemName + "', '" + value + "', '" + amount + "')";
+VALUES('"itemName + "', " + value + ", " + amount + ")";
 
 /* VIEW ALL ITEMS */
 "SELECT * FROM items";
 
 /* UPDATE ITEM RECORD */
-UPDATE items
+"UPDATE items
 SET 
-	item_name = 'Freddos Bouncing Castle',
-	value = 42,
-	amount = 28
+	item_name = '" + itemName + "',
+	value = "+ value",
+	amount = "+ amount"
 WHERE
-	id = 1012;
+	id = " + id;
 	
 /* DELETE ITEM RECORD */
 DELETE FROM items
