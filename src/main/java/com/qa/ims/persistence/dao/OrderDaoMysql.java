@@ -1,7 +1,11 @@
 package com.qa.ims.persistence.dao;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -27,7 +31,7 @@ public class OrderDaoMysql implements Dao<Order> {
 		this.password = password;
 	}
 
-	Order orderFromResult(ResultSet resultSet) throws SQLException {
+	Order orderFromResultSet(ResultSet resultSet) throws SQLException {
 		long id = resultSet.getLong("id");
 		long fkCustomerId = resultSet.getLong("fk_customer_id");
 
@@ -36,7 +40,44 @@ public class OrderDaoMysql implements Dao<Order> {
 
 	@Override
 	public List<Order> readAll() {
-		// TODO Auto-generated method stub
+		try (Connection connection = DriverManager.getConnection(jdbcConnectionUrl, username, password);
+				Statement statement = connection.createStatement();
+				ResultSet resultSet = statement.executeQuery("SELECT * FROM orders");) {
+			ArrayList<Order> orders = new ArrayList<>();
+			while (resultSet.next()) {
+				orders.add(orderFromResultSet(resultSet));
+			}
+			return orders;
+		} catch (SQLException e) {
+			LOGGER.debug(e.getStackTrace());
+			LOGGER.error(e.getMessage());
+		}
+		return new ArrayList<>();
+	}
+
+	public Order readLatest() {
+		try (Connection connection = DriverManager.getConnection(jdbcConnectionUrl, username, password);
+				Statement statement = connection.createStatement();
+				ResultSet resultSet = statement.executeQuery("SELECT * FROM orders ORDER BY id DESC LIMIT 1");) {
+			resultSet.next();
+			return orderFromResultSet(resultSet);
+		} catch (Exception e) {
+			LOGGER.debug(e.getStackTrace());
+			LOGGER.error(e.getMessage());
+		}
+		return null;
+	}
+
+	public Order readOrder(long id) {
+		try (Connection connection = DriverManager.getConnection(jdbcConnectionUrl, username, password);
+				Statement statement = connection.createStatement();
+				ResultSet resultSet = statement.executeQuery("SELECT * FROM orders WHERE id = " + id);) {
+			resultSet.next();
+			return orderFromResultSet(resultSet);
+		} catch (Exception e) {
+			LOGGER.debug(e.getStackTrace());
+			LOGGER.error(e.getMessage());
+		}
 		return null;
 	}
 
