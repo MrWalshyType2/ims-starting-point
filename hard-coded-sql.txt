@@ -56,12 +56,12 @@ WHERE id = " + id;
 VALUES(" + orderId + ", " + itemId + ", " + quantity + ")";
 
 /* CALCULATE ORDER COST */
-SELECT SUM(order_items.quantity*items.value) AS Cost
+"SELECT SUM(order_items.quantity*items.value) AS Cost
 FROM customers
 JOIN orders ON customers.id=orders.fk_customer_id
 JOIN order_items ON orders.id=order_items.fk_order_id
 JOIN items ON order_items.fk_item_id=items.id
-WHERE customers.id=1;
+WHERE customers.id=" + id;
 
 /* DELETE ITEM FROM ORDER */
 DELETE FROM order_items
