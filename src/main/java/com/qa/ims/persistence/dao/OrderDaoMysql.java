@@ -10,6 +10,7 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
+import com.qa.ims.persistence.domain.Item;
 import com.qa.ims.persistence.domain.Order;
 
 public class OrderDaoMysql implements Dao<Order> {
@@ -71,7 +72,7 @@ public class OrderDaoMysql implements Dao<Order> {
 	public Order readOrder(long id) {
 		try (Connection connection = DriverManager.getConnection(jdbcConnectionUrl, username, password);
 				Statement statement = connection.createStatement();
-				ResultSet resultSet = statement.executeQuery("SELECT * FROM orders WHERE id = " + id);) {
+				ResultSet resultSet = statement.executeQuery("SELECT * FROM order_items WHERE fk_order_id = " + id);) {
 			resultSet.next();
 			return orderFromResultSet(resultSet);
 		} catch (Exception e) {
@@ -95,8 +96,20 @@ public class OrderDaoMysql implements Dao<Order> {
 	}
 
 	@Override
-	public Order update(Order t) {
-		// TODO Auto-generated method stub
+	public Order update(Order order) {
+		return order;
+	}
+
+	public Order update(Order order, Item item, int quantity) {
+		try (Connection connection = DriverManager.getConnection(jdbcConnectionUrl, username, password);
+				Statement statement = connection.createStatement();) {
+			statement.executeUpdate("INSERT INTO order_items(fk_order_id, fk_item_id, quantity)" + "VALUES("
+					+ order.getFkCustomerId() + ", " + item.getId() + ", " + quantity + ")");
+			return readOrder(order.getId());
+		} catch (SQLException e) {
+			LOGGER.debug(e.getStackTrace());
+			LOGGER.error(e.getMessage());
+		}
 		return null;
 	}
 
