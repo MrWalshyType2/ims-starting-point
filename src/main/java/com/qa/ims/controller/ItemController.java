@@ -39,6 +39,7 @@ public class ItemController implements CrudController<Item> {
 		int value = Integer.getInteger(getInput());
 		LOGGER.info("Please enter the item quantity: ");
 		int amount = Integer.getInteger(getInput());
+
 		Item item = new Item(itemName, value, amount);
 		LOGGER.info("Item created!");
 		return item;
@@ -46,8 +47,18 @@ public class ItemController implements CrudController<Item> {
 
 	@Override
 	public Item update() {
-		// TODO Auto-generated method stub
-		return null;
+		LOGGER.info("Please enter the id of the item to be updated: ");
+		Long id = Long.valueOf(getInput());
+		LOGGER.info("Please enter a new item name: ");
+		String newName = getInput();
+		LOGGER.info("Please enter the new item value: ");
+		int newValue = Integer.getInteger(getInput());
+		LOGGER.info("Please enter the new item quantity: ");
+		int newAmount = Integer.getInteger(getInput());
+
+		Item item = itemService.update(new Item(id, newName, newValue, newAmount));
+		LOGGER.info("Item updated!");
+		return item;
 	}
 
 	@Override
