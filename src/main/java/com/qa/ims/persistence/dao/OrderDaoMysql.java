@@ -21,6 +21,10 @@ public class OrderDaoMysql implements Dao<Order> {
 	private String username;
 	private String password;
 
+	public OrderDaoMysql() {
+
+	}
+
 	public OrderDaoMysql(String username, String password) {
 		this.username = username;
 		this.password = password;

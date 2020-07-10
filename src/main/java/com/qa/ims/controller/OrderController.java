@@ -4,6 +4,9 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
+import com.qa.ims.persistence.dao.ItemDaoMysql;
+import com.qa.ims.persistence.dao.OrderDaoMysql;
+import com.qa.ims.persistence.domain.Item;
 import com.qa.ims.persistence.domain.Order;
 import com.qa.ims.services.CrudServices;
 import com.qa.ims.utils.Utils;
@@ -43,8 +46,21 @@ public class OrderController implements CrudController<Order> {
 
 	@Override
 	public Order update() {
-		// TODO Auto-generated method stub
-		return null;
+		LOGGER.info("Please enter your order ID: ");
+		long orderId = Long.valueOf(getInput());
+		LOGGER.info("Please enter the item ID: ");
+		long itemId = Long.valueOf(getInput());
+		LOGGER.info("Please enter the quantity required: ");
+		int quantity = Integer.valueOf(getInput());
+
+		// I don't like these lines (53 - 55), it doesn't feel right. May better to
+		// place
+		Order order = new OrderDaoMysql().readOrder(orderId);
+		Item item = new ItemDaoMysql().readItem(itemId);
+		order = new OrderDaoMysql().update(order, item, quantity);
+		LOGGER.info("Item updated!");
+
+		return order;
 	}
 
 	@Override
