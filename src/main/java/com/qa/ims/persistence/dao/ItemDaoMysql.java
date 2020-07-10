@@ -71,6 +71,19 @@ public class ItemDaoMysql implements Dao<Item> {
 		return null;
 	}
 
+	public Item readItem(long id) {
+		try (Connection connection = DriverManager.getConnection(jdbcConnectionUrl, username, password);
+				Statement statement = connection.createStatement();
+				ResultSet resultSet = statement.executeQuery("SELECT * FROM items WHERE id = " + id);) {
+			resultSet.next();
+			return itemFromResultSet(resultSet);
+		} catch (Exception e) {
+			LOGGER.debug(e.getStackTrace());
+			LOGGER.error(e.getMessage());
+		}
+		return null;
+	}
+
 	@Override
 	public Item create(Item item) {
 		try (Connection connection = DriverManager.getConnection(jdbcConnectionUrl, username, password);
@@ -86,8 +99,16 @@ public class ItemDaoMysql implements Dao<Item> {
 	}
 
 	@Override
-	public Item update(Item t) {
-		// TODO Auto-generated method stub
+	public Item update(Item item) {
+		try (Connection connection = DriverManager.getConnection(jdbcConnectionUrl, username, password);
+				Statement statement = connection.createStatement();) {
+			statement.executeUpdate("UPDATE items SET" + "item_name = '" + item.getItemName() + "'" + "value = "
+					+ item.getValue() + "" + "amount = " + item.getAmount() + "" + "WHERE id = " + item.getId() + ")");
+			return readItem(item.getId());
+		} catch (SQLException e) {
+			LOGGER.debug(e.getStackTrace());
+			LOGGER.error(e.getMessage());
+		}
 		return null;
 	}
 
