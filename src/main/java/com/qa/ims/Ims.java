@@ -73,28 +73,23 @@ public class Ims {
 	}
 
 	public void doAction(CrudController<?> crudController, Action action) {
-		boolean exit = false;
-
-		while (!exit) {
-			switch (action) {
-			case CREATE:
-				crudController.create();
-				break;
-			case READ:
-				crudController.readAll();
-				break;
-			case UPDATE:
-				crudController.update();
-				break;
-			case DELETE:
-				crudController.delete();
-				break;
-			case RETURN:
-				exit = true;
-				break;
-			default:
-				break;
-			}
+		switch (action) {
+		case CREATE:
+			crudController.create();
+			break;
+		case READ:
+			crudController.readAll();
+			break;
+		case UPDATE:
+			crudController.update();
+			break;
+		case DELETE:
+			crudController.delete();
+			break;
+		case RETURN:
+			break;
+		default:
+			break;
 		}
 	}
 
