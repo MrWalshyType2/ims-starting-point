@@ -12,6 +12,7 @@ import org.apache.log4j.Logger;
 
 import com.qa.ims.persistence.domain.Item;
 import com.qa.ims.persistence.domain.Order;
+import com.qa.ims.utils.Utils;
 
 public class OrderDaoMysql implements Dao<Order> {
 
@@ -26,6 +27,7 @@ public class OrderDaoMysql implements Dao<Order> {
 	}
 
 	public OrderDaoMysql(String username, String password) {
+		this.jdbcConnectionUrl = "jdbc:mysql://" + Utils.MYSQL_URL + "/ims_test1?serverTimezone=UTC";
 		this.username = username;
 		this.password = password;
 	}

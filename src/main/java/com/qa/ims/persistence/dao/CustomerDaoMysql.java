@@ -22,7 +22,7 @@ public class CustomerDaoMysql implements Dao<Customer> {
 	private String password;
 
 	public CustomerDaoMysql(String username, String password) {
-		this.jdbcConnectionUrl = "jdbc:mysql://" + Utils.MYSQL_URL + "/ims";
+		this.jdbcConnectionUrl = "jdbc:mysql://" + Utils.MYSQL_URL + "/ims_test1?serverTimezone=UTC";
 		this.username = username;
 		this.password = password;
 	}
@@ -84,9 +84,9 @@ public class CustomerDaoMysql implements Dao<Customer> {
 	public Customer create(Customer customer) {
 		try (Connection connection = DriverManager.getConnection(jdbcConnectionUrl, username, password);
 				Statement statement = connection.createStatement();) {
-			statement.executeUpdate("insert into customers(first_name, surname, email, username, password) "
-					+ "values('" + customer.getFirstName() + "','" + customer.getSurname() + "', '"
-					+ customer.getEmail() + "','" + customer.getUsername() + "', '" + customer.getPassword() + "')");
+			statement.executeUpdate("insert into customers(first_name, surname, email, password) " + "values('"
+					+ customer.getFirstName() + "','" + customer.getSurname() + "', '" + customer.getEmail() + "', '"
+					+ customer.getPassword() + "')");
 			return readLatest();
 		} catch (Exception e) {
 			LOGGER.debug(e.getStackTrace());
