@@ -98,7 +98,7 @@ public class CustomerDaoMysql implements Dao<Customer> {
 	public Customer readCustomer(Long id) {
 		try (Connection connection = DriverManager.getConnection(jdbcConnectionUrl, username, password);
 				Statement statement = connection.createStatement();
-				ResultSet resultSet = statement.executeQuery("SELECT FROM customers where id = " + id);) {
+				ResultSet resultSet = statement.executeQuery("SELECT * customers WHERE id = " + id);) {
 			resultSet.next();
 			return customerFromResultSet(resultSet);
 		} catch (Exception e) {
