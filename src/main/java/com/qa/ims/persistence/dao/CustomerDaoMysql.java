@@ -120,9 +120,8 @@ public class CustomerDaoMysql implements Dao<Customer> {
 		try (Connection connection = DriverManager.getConnection(jdbcConnectionUrl, username, password);
 				Statement statement = connection.createStatement();) {
 			statement.executeUpdate("update customers set first_name ='" + customer.getFirstName() + "', surname ='"
-					+ customer.getSurname() + "', email='" + customer.getEmail() + "', username='"
-					+ customer.getUsername() + "', password='" + customer.getPassword() + "' where id ="
-					+ customer.getId());
+					+ customer.getSurname() + "', email='" + customer.getEmail() + "', password='"
+					+ customer.getPassword() + "' where id =" + customer.getId());
 			return readCustomer(customer.getId());
 		} catch (Exception e) {
 			LOGGER.debug(e.getStackTrace());
