@@ -37,7 +37,7 @@ public class OrderController implements CrudController<Order> {
 	@Override
 	public Order create() {
 		LOGGER.info("Please enter your customer id: ");
-		long customerId = Long.getLong(getInput());
+		long customerId = Long.parseLong(getInput());
 
 		Order order = new Order(customerId);
 		LOGGER.info("Order created!");
@@ -47,11 +47,11 @@ public class OrderController implements CrudController<Order> {
 	@Override
 	public Order update() {
 		LOGGER.info("Please enter your order ID: ");
-		long orderId = Long.valueOf(getInput());
+		long orderId = Long.parseLong(getInput());
 		LOGGER.info("Please enter the item ID: ");
-		long itemId = Long.valueOf(getInput());
+		long itemId = Long.parseLong(getInput());
 		LOGGER.info("Please enter the quantity required: ");
-		int quantity = Integer.valueOf(getInput());
+		int quantity = Integer.parseInt(getInput());
 
 		// I don't like these lines (53 - 55), it doesn't feel right. May better to
 		// place
@@ -66,7 +66,7 @@ public class OrderController implements CrudController<Order> {
 	@Override
 	public void delete() {
 		LOGGER.info("Please enter the id of the order to be deleted");
-		long orderId = Long.getLong(getInput());
+		long orderId = Long.parseLong(getInput());
 		orderService.delete(orderId);
 		LOGGER.info("Item deleted");
 	}
