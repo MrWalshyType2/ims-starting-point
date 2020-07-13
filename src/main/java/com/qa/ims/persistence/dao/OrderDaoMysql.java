@@ -92,7 +92,7 @@ public class OrderDaoMysql implements Dao<Order> {
 	public Order create(Order order) {
 		try (Connection connection = DriverManager.getConnection(jdbcConnectionUrl, username, password);
 				Statement statement = connection.createStatement();) {
-			statement.executeUpdate("INSERT INTO orders(fk_customer_id)" + " VALUES('" + order.getFkCustomerId() + ")");
+			statement.executeUpdate("INSERT INTO orders(fk_customer_id)" + " VALUES(" + order.getFkCustomerId() + ")");
 			return readLatest();
 		} catch (SQLException e) {
 			LOGGER.debug(e.getStackTrace());

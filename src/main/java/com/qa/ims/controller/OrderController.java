@@ -40,6 +40,7 @@ public class OrderController implements CrudController<Order> {
 		long customerId = Long.parseLong(getInput());
 
 		Order order = new Order(customerId);
+		orderService.create(order);
 		LOGGER.info("Order created!");
 		return order;
 	}
@@ -55,7 +56,7 @@ public class OrderController implements CrudController<Order> {
 
 		// I don't like these lines (53 - 55), it doesn't feel right. May better to
 		// place
-		Order order = new OrderDaoMysql().readOrder(orderId);
+		Order order = new OrderDaoMysql().readOrder(orderId); // Not getting anything back
 		Item item = new ItemDaoMysql().readItem(itemId);
 		order = new OrderDaoMysql().update(order, item, quantity);
 		LOGGER.info("Order updated!"); // Fixed this
