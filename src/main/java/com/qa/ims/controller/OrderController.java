@@ -16,9 +16,11 @@ public class OrderController implements CrudController<Order> {
 	public static final Logger LOGGER = Logger.getLogger(OrderController.class);
 
 	private CrudServices<Order> orderService;
+	private CrudServices<Item> itemService;
 
-	public OrderController(CrudServices<Order> orderService) {
+	public OrderController(CrudServices<Order> orderService, CrudServices<Item> itemService) {
 		this.orderService = orderService;
+		this.itemService = itemService;
 	}
 
 	String getInput() {
@@ -56,11 +58,11 @@ public class OrderController implements CrudController<Order> {
 
 		//
 
-		Order orderWanted = null;
+		Order order = null;
 		List<Order> orders = orderService.readAll();
 		for (Order o : orders) {
 			if (o.getId() == orderId) {
-				orderWanted = o;
+				order = o;
 				break;
 			}
 		}
@@ -69,10 +71,10 @@ public class OrderController implements CrudController<Order> {
 		// place
 //		Order order = new OrderDaoMysql().readOrder(orderId); // Not getting anything back
 		Item item = new ItemDaoMysql().readItem(itemId);
-		orderWanted = new OrderDaoMysql().update(orderWanted, item, quantity);
+		order = new OrderDaoMysql().update(order, item, quantity);
 		LOGGER.info("Order updated!"); // Fixed this
 
-		return orderWanted;
+		return order;
 	}
 
 	@Override
