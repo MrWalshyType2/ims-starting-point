@@ -54,14 +54,25 @@ public class OrderController implements CrudController<Order> {
 		LOGGER.info("Please enter the quantity required: ");
 		int quantity = Integer.parseInt(getInput());
 
+		//
+
+		Order orderWanted = null;
+		List<Order> orders = orderService.readAll();
+		for (Order o : orders) {
+			if (o.getId() == orderId) {
+				orderWanted = o;
+				break;
+			}
+		}
+		//
 		// I don't like these lines (53 - 55), it doesn't feel right. May better to
 		// place
-		Order order = new OrderDaoMysql().readOrder(orderId); // Not getting anything back
+//		Order order = new OrderDaoMysql().readOrder(orderId); // Not getting anything back
 		Item item = new ItemDaoMysql().readItem(itemId);
-		order = new OrderDaoMysql().update(order, item, quantity);
+		orderWanted = new OrderDaoMysql().update(orderWanted, item, quantity);
 		LOGGER.info("Order updated!"); // Fixed this
 
-		return order;
+		return orderWanted;
 	}
 
 	@Override
