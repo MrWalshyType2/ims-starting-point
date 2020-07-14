@@ -149,6 +149,8 @@ public class OrderDaoMysql implements Dao<Order> {
 				LOGGER.debug(e.getStackTrace());
 				LOGGER.error(e.getMessage());
 			}
+		} else if (order.isUpdateMode() == true && order.isUpdate() == false) {
+			delete(order.getId(), order.getItem().getId());
 		}
 		return null;
 	}
@@ -157,13 +159,22 @@ public class OrderDaoMysql implements Dao<Order> {
 	public void delete(long id) {
 		// TODO Auto-generated method stub
 		// delete order from orders and order items from order_items
+		try (Connection connection = DriverManager.getConnection(jdbcConnectionUrl, username, password);
+				Statement statement = connection.createStatement();
+				Statement statement2 = connection.createStatement();) {
+			statement.executeUpdate("DELETE FROM orders WHERE id=" + id);
+			statement.executeUpdate("DELETE FROM order_items WHERE fk_order_id=" + id);
+		} catch (SQLException e) {
+			LOGGER.debug(e.getStackTrace());
+			LOGGER.error(e.getMessage());
+		}
 	}
 
 	public void delete(long fk_order_id, long fk_item_id) {
 		try (Connection connection = DriverManager.getConnection(jdbcConnectionUrl, username, password);
 				Statement statement = connection.createStatement();) {
-			statement.executeUpdate("DELETE FROM order_items WHERE fk_order_id = " + fk_order_id + ", fk_item_id = "
-					+ fk_item_id + ")");
+			statement.executeUpdate(
+					"DELETE FROM order_items WHERE fk_order_id =" + fk_order_id + ", fk_item_id =" + fk_item_id);
 		} catch (SQLException e) {
 			LOGGER.debug(e.getStackTrace());
 			LOGGER.error(e.getMessage());
