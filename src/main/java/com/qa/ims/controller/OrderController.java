@@ -36,6 +36,7 @@ public class OrderController implements CrudController<Order> {
 
 	@Override
 	public Order create() {
+		String tmp = "";
 		LOGGER.info("Please enter your customer id: ");
 		long customerId = Long.parseLong(getInput());
 
@@ -63,6 +64,12 @@ public class OrderController implements CrudController<Order> {
 			order.setItemQuantity(quantity);
 			// order.addItemToOrder(item);
 			orderService.update(order);
+
+			LOGGER.info("Are you done with your order? N or Y");
+			tmp = getInput().toLowerCase();
+			if (tmp.contentEquals("y")) {
+				exit = true;
+			}
 		}
 
 		return order;
