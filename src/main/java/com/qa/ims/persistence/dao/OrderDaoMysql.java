@@ -46,15 +46,15 @@ public class OrderDaoMysql implements Dao<Order> {
 	}
 
 	Order orderFromResultSet(ResultSet itemsRs, ResultSet order) throws SQLException {
-		long id = order.getLong("id");
-		long fkCustomerId = order.getLong("fk_customer_id");
-		ArrayList<Item> items = new ArrayList<>(); // Items in order
-		long itemId = 0;
-		ResultSet itemSet = null; // Holds items db info
-		int orderCost = calculateCost(id);
-
 		try (Connection connection = DriverManager.getConnection(jdbcConnectionUrl, username, password);
 				Statement statement = connection.createStatement();) {
+			long id = order.getLong("id");
+			long fkCustomerId = order.getLong("fk_customer_id");
+			long itemId = 0;
+			int orderCost = calculateCost(id);
+			ArrayList<Item> items = new ArrayList<>(); // Items in order
+			ResultSet itemSet = null; // Holds items db info
+
 			itemSet = statement.executeQuery("SELECT * FROM items");
 			while (itemsRs.next()) {
 				itemId = itemsRs.getLong("fk_item_id");
