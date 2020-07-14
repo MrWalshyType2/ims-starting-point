@@ -40,8 +40,8 @@ public class ItemController implements CrudController<Item> {
 		LOGGER.info("Please enter the item quantity: ");
 		int amount = Integer.parseInt(getInput());
 
-//		Item item = new Item(itemName, value, amount);
-		Item item = itemService.create(new Item(itemName, value, amount));
+		Item i = new Item(itemName, value, amount);
+		Item item = itemService.create(i);
 		LOGGER.info("Item created!");
 		return item;
 	}
