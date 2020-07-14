@@ -10,6 +10,8 @@ public class Order {
 	private int totalCost;
 	private int itemQuantity = 0;
 	private ArrayList<Item> itemsInOrder = new ArrayList<>();
+	private boolean update = false;
+	private boolean updateMode = false;
 
 	public Order(long fkCustomerId) {
 		this.fkCustomerId = fkCustomerId;
@@ -79,6 +81,30 @@ public class Order {
 
 	public void setTotalCost(int totalCost) {
 		this.totalCost = totalCost;
+	}
+
+	public ArrayList<Item> getItemsInOrder() {
+		return itemsInOrder;
+	}
+
+	public void setItemsInOrder(ArrayList<Item> itemsInOrder) {
+		this.itemsInOrder = itemsInOrder;
+	}
+
+	public boolean isUpdate() {
+		return update;
+	}
+
+	public void setUpdate(boolean update) {
+		this.update = update;
+	}
+
+	public boolean isUpdateMode() {
+		return updateMode;
+	}
+
+	public void setUpdateMode(boolean updateMode) {
+		this.updateMode = updateMode;
 	}
 
 	@Override

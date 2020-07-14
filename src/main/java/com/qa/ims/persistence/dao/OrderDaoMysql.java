@@ -139,14 +139,16 @@ public class OrderDaoMysql implements Dao<Order> {
 		Item item = order.getItem();
 		int quantity = order.getItemQuantity();
 
-		try (Connection connection = DriverManager.getConnection(jdbcConnectionUrl, username, password);
-				Statement statement = connection.createStatement();) {
-			statement.executeUpdate("INSERT INTO order_items(fk_order_id, fk_item_id, quantity)" + "VALUES("
-					+ order.getId() + ", " + item.getId() + ", " + quantity + ")");
-			return readOrder(order.getId());
-		} catch (SQLException e) {
-			LOGGER.debug(e.getStackTrace());
-			LOGGER.error(e.getMessage());
+		if (order.isUpdateMode() == false || order.isUpdateMode() == true && order.isUpdate() == true) {
+			try (Connection connection = DriverManager.getConnection(jdbcConnectionUrl, username, password);
+					Statement statement = connection.createStatement();) {
+				statement.executeUpdate("INSERT INTO order_items(fk_order_id, fk_item_id, quantity)" + "VALUES("
+						+ order.getId() + ", " + item.getId() + ", " + quantity + ")");
+				return readOrder(order.getId());
+			} catch (SQLException e) {
+				LOGGER.debug(e.getStackTrace());
+				LOGGER.error(e.getMessage());
+			}
 		}
 		return null;
 	}

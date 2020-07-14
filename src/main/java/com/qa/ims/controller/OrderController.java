@@ -77,34 +77,56 @@ public class OrderController implements CrudController<Order> {
 
 	@Override
 	public Order update() {
-//		LOGGER.info("Please enter your order ID: ");
-//		long orderId = Long.parseLong(getInput());
-//		LOGGER.info("Please enter the item ID: ");
-//		long itemId = Long.parseLong(getInput());
-//		LOGGER.info("Please enter the quantity required: ");
-//		int quantity = Integer.parseInt(getInput());
-//
-//		//
-//
-//		Order order = null;
-//		List<Order> orders = orderService.readAll();
-//		for (Order o : orders) {
-//			if (o.getId() == orderId) {
-//				order = o;
-//				break;
-//			}
-//		}
-//		//
-//		// I don't like these lines (53 - 55), it doesn't feel right. May better to
-//		// place
-////		Order order = new OrderDaoMysql().readOrder(orderId); // Not getting anything back
-//		Item item = ((ItemDaoMysql) itemService).readItem(itemId);
-////		order = new OrderDaoMysql().update(order, item, quantity);
-//		order = ((OrderDaoMysql) orderService).update(order, item, quantity);
-//		LOGGER.info("Order updated!");
-//
-//		return order;
-		return null;
+		LOGGER.info("Please enter your order ID: ");
+		long orderId = Long.parseLong(getInput());
+		Order order = null;
+
+		List<Order> orders = orderService.readAll();
+		for (Order o : orders) {
+			if (o.getId() == orderId) {
+				order = o;
+				order.setUpdateMode(true);
+			}
+		}
+
+		List<Item> items = itemService.readAll();
+
+		LOGGER.info("Would you like to update? |'Y' to update | 'N' to delete|");
+		String toUpdate = getInput().toLowerCase();
+
+		if (toUpdate.contentEquals("y")) {
+			order.setUpdate(true);
+			LOGGER.info("Please enter item ID to be added to your order:");
+			long itemId = Long.parseLong(getInput());
+
+			for (Item i : items) {
+				if (i.getId() == itemId) {
+					order.setItem(i);
+					break;
+				}
+			}
+
+			LOGGER.info("How many " + order.getItem().getItemName() + " would you like?");
+			order.setItemQuantity(Integer.parseInt(getInput()));
+			orderService.update(order);
+			LOGGER.info("Order updated!");
+		} else {
+			order.setUpdate(false);
+			LOGGER.info("Enter the item ID to be deleted from your order:");
+			long itemId = Long.parseLong(getInput());
+
+			for (Item i : items) {
+				if (i.getId() == itemId) {
+					order.setItem(i);
+					break;
+				}
+			}
+			orderService.update(order);
+			LOGGER.info("Item deleted!");
+		}
+
+		order.setUpdateMode(false);
+		return order;
 	}
 
 	@Override
