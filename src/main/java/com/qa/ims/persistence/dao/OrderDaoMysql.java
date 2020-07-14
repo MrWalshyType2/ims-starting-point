@@ -174,7 +174,7 @@ public class OrderDaoMysql implements Dao<Order> {
 		try (Connection connection = DriverManager.getConnection(jdbcConnectionUrl, username, password);
 				Statement statement = connection.createStatement();) {
 			statement.executeUpdate(
-					"DELETE FROM order_items WHERE fk_order_id =" + fk_order_id + ", fk_item_id =" + fk_item_id);
+					"DELETE FROM order_items WHERE fk_order_id =" + fk_order_id + " AND fk_item_id =" + fk_item_id);
 		} catch (SQLException e) {
 			LOGGER.debug(e.getStackTrace());
 			LOGGER.error(e.getMessage());
