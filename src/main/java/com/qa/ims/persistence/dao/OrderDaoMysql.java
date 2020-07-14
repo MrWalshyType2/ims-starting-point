@@ -45,6 +45,37 @@ public class OrderDaoMysql implements Dao<Order> {
 		return new Order(id, fkCustomerId);
 	}
 
+	Order orderFromResultSet(ResultSet itemsRs, ResultSet order) throws SQLException {
+		long id = order.getLong("id");
+		long fkCustomerId = order.getLong("fk_customer_id");
+		ArrayList<Item> items = new ArrayList<>(); // Items in order
+		long itemId = 0;
+		String itemName = "";
+		int value = 0;
+		int amount = 0;
+		ResultSet itemSet = null; // Holds items db info
+
+		try (Connection connection = DriverManager.getConnection(jdbcConnectionUrl, username, password);
+				Statement statement = connection.createStatement();) {
+			itemSet = statement.executeQuery("SELECT * FROM items");
+		} catch (Exception e) {
+			LOGGER.debug(e.getStackTrace());
+			LOGGER.error(e.getMessage());
+		}
+
+		while (itemsRs.next()) {
+			itemId = itemsRs.getLong("fk_item_id");
+			while (itemSet.next()) {
+				if (itemSet.getLong("id") == itemId) {
+					items.add(new Item(itemId, itemSet.getString("item_name"), itemSet.getInt("value"),
+							itemSet.getInt("amount")));
+				}
+			}
+		}
+
+		return new Order(id, fkCustomerId, items);
+	}
+
 	@Override
 	public List<Order> readAll() {
 		try (Connection connection = DriverManager.getConnection(jdbcConnectionUrl, username, password);
@@ -78,9 +109,12 @@ public class OrderDaoMysql implements Dao<Order> {
 	public Order readOrder(long id) {
 		try (Connection connection = DriverManager.getConnection(jdbcConnectionUrl, username, password);
 				Statement statement = connection.createStatement();
-				ResultSet resultSet = statement.executeQuery("SELECT * FROM order_items WHERE fk_order_id = " + id);) {
+				Statement statement2 = connection.createStatement();
+				ResultSet resultSet = statement.executeQuery("SELECT * FROM order_items WHERE fk_order_id = " + id);
+				ResultSet order = statement2.executeQuery("SELECT * FROM orders WHERE id=" + id);) {
 			resultSet.next();
-			return orderFromResultSet(resultSet);
+			order.next();
+			return orderFromResultSet(resultSet, order);
 		} catch (Exception e) {
 			LOGGER.debug(e.getStackTrace());
 			LOGGER.error(e.getMessage());
@@ -103,10 +137,9 @@ public class OrderDaoMysql implements Dao<Order> {
 
 	@Override
 	public Order update(Order order) {
-		return order;
-	}
+		Item item = order.getItem();
+		int quantity = order.getItemQuantity();
 
-	public Order update(Order order, Item item, int quantity) {
 		try (Connection connection = DriverManager.getConnection(jdbcConnectionUrl, username, password);
 				Statement statement = connection.createStatement();) {
 			statement.executeUpdate("INSERT INTO order_items(fk_order_id, fk_item_id, quantity)" + "VALUES("
@@ -122,7 +155,7 @@ public class OrderDaoMysql implements Dao<Order> {
 	@Override
 	public void delete(long id) {
 		// TODO Auto-generated method stub
-
+		// delete order from orders and order items from order_items
 	}
 
 	public void delete(long fk_order_id, long fk_item_id) {
@@ -134,6 +167,10 @@ public class OrderDaoMysql implements Dao<Order> {
 			LOGGER.debug(e.getStackTrace());
 			LOGGER.error(e.getMessage());
 		}
+	}
+
+	public void calculateCost(long id) {
+
 	}
 
 }

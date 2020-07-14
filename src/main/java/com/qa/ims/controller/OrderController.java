@@ -4,8 +4,6 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
-import com.qa.ims.persistence.dao.ItemDaoMysql;
-import com.qa.ims.persistence.dao.OrderDaoMysql;
 import com.qa.ims.persistence.domain.Item;
 import com.qa.ims.persistence.domain.Order;
 import com.qa.ims.services.CrudServices;
@@ -42,40 +40,64 @@ public class OrderController implements CrudController<Order> {
 		long customerId = Long.parseLong(getInput());
 
 		Order order = new Order(customerId);
-		orderService.create(order);
+		order = orderService.create(order); // get the id from here
 		LOGGER.info("Order created!");
+
+		boolean exit = false;
+		List<Item> items = itemService.readAll();
+		Item item = null;
+
+		while (!exit) {
+			LOGGER.info("Please enter the ID of the item to be added to the order:");
+			long itemId = Long.parseLong(getInput());
+			LOGGER.info("Please enter the quantity required:");
+			int quantity = Integer.parseInt(getInput());
+
+			for (Item i : items) {
+				if (i.getId() == itemId) {
+					item = i;
+					break;
+				}
+			}
+			order.setItem(item);
+			order.setItemQuantity(quantity);
+			// order.addItemToOrder(item);
+			orderService.update(order);
+		}
+
 		return order;
 	}
 
 	@Override
 	public Order update() {
-		LOGGER.info("Please enter your order ID: ");
-		long orderId = Long.parseLong(getInput());
-		LOGGER.info("Please enter the item ID: ");
-		long itemId = Long.parseLong(getInput());
-		LOGGER.info("Please enter the quantity required: ");
-		int quantity = Integer.parseInt(getInput());
-
-		//
-
-		Order order = null;
-		List<Order> orders = orderService.readAll();
-		for (Order o : orders) {
-			if (o.getId() == orderId) {
-				order = o;
-				break;
-			}
-		}
-		//
-		// I don't like these lines (53 - 55), it doesn't feel right. May better to
-		// place
-//		Order order = new OrderDaoMysql().readOrder(orderId); // Not getting anything back
-		Item item = ((ItemDaoMysql) itemService).readItem(itemId);
-//		order = new OrderDaoMysql().update(order, item, quantity);
-		order = ((OrderDaoMysql) orderService).update(order, item, quantity);
-		LOGGER.info("Order updated!");
-
-		return order;
+//		LOGGER.info("Please enter your order ID: ");
+//		long orderId = Long.parseLong(getInput());
+//		LOGGER.info("Please enter the item ID: ");
+//		long itemId = Long.parseLong(getInput());
+//		LOGGER.info("Please enter the quantity required: ");
+//		int quantity = Integer.parseInt(getInput());
+//
+//		//
+//
+//		Order order = null;
+//		List<Order> orders = orderService.readAll();
+//		for (Order o : orders) {
+//			if (o.getId() == orderId) {
+//				order = o;
+//				break;
+//			}
+//		}
+//		//
+//		// I don't like these lines (53 - 55), it doesn't feel right. May better to
+//		// place
+////		Order order = new OrderDaoMysql().readOrder(orderId); // Not getting anything back
+//		Item item = ((ItemDaoMysql) itemService).readItem(itemId);
+////		order = new OrderDaoMysql().update(order, item, quantity);
+//		order = ((OrderDaoMysql) orderService).update(order, item, quantity);
+//		LOGGER.info("Order updated!");
+//
+//		return order;
+		return null;
 	}
 
 	@Override

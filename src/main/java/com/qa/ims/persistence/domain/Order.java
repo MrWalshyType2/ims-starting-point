@@ -1,8 +1,15 @@
 package com.qa.ims.persistence.domain;
 
+import java.util.ArrayList;
+
 public class Order {
 	private long id;
 	private long fkCustomerId;
+	private Item item = null;
+	private String name;
+	private int totalCost;
+	private int itemQuantity = 0;
+	private ArrayList<Item> itemsInOrder = new ArrayList<>();
 
 	public Order(long fkCustomerId) {
 		this.fkCustomerId = fkCustomerId;
@@ -13,8 +20,12 @@ public class Order {
 		this.fkCustomerId = fkCustomerId;
 	}
 
+	public Order(long id, long fkCustomerId, ArrayList<Item> items) {
+		this.itemsInOrder = items;
+	}
+
 	public long getId() {
-		return id;
+		return this.id;
 	}
 
 	public void setId(long id) {
@@ -27,6 +38,38 @@ public class Order {
 
 	public void setFkCustomerId(long fkCustomerId) {
 		this.fkCustomerId = fkCustomerId;
+	}
+
+	public Item getItem() {
+		return item;
+	}
+
+	public void setItem(Item item) {
+		this.item = item;
+	}
+
+	public int getItemQuantity() {
+		return itemQuantity;
+	}
+
+	public void setItemQuantity(int itemQuantity) {
+		this.itemQuantity = itemQuantity;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public int getTotalCost() {
+		return totalCost;
+	}
+
+	public void setTotalCost(int totalCost) {
+		this.totalCost = totalCost;
 	}
 
 	@Override
