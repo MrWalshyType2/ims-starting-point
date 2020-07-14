@@ -59,4 +59,13 @@ public class ItemControllerTest {
 		// Assert.assertEquals(expected, actual);
 		assertEquals(savedItem, itemService.create(item));
 	}
+
+	@Test
+	public void updateTest() {
+		// Mockito.doReturn("1", "Freddo", "50", "30").when(itemController).getInput();
+		Item item = new Item("Freddo", 50, 30);
+		item.setId(1);
+		Mockito.when(itemService.update(item)).thenReturn(item);
+		assertEquals(item, itemService.update(item));
+	}
 }
