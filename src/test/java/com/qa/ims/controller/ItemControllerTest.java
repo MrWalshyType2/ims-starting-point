@@ -68,4 +68,11 @@ public class ItemControllerTest {
 		Mockito.when(itemService.update(item)).thenReturn(item);
 		assertEquals(item, itemService.update(item));
 	}
+
+	@Test
+	public void deleteTest() {
+		Mockito.doReturn("3").when(itemController).getInput();
+		itemController.delete();
+		Mockito.verify(itemService, Mockito.times(1)).delete(3L);
+	}
 }
