@@ -157,8 +157,6 @@ public class OrderDaoMysql implements Dao<Order> {
 
 	@Override
 	public void delete(long id) {
-		// TODO Auto-generated method stub
-		// delete order from orders and order items from order_items
 		try (Connection connection = DriverManager.getConnection(jdbcConnectionUrl, username, password);
 				Statement statement = connection.createStatement();
 				Statement statement2 = connection.createStatement();) {
