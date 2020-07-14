@@ -63,7 +63,7 @@ public class OrderController implements CrudController<Order> {
 			order.setItem(item);
 			order.setItemQuantity(quantity);
 			// order.addItemToOrder(item);
-			orderService.update(order);
+			order = orderService.update(order);
 
 			LOGGER.info("Are you done with your order? N or Y");
 			tmp = getInput().toLowerCase();

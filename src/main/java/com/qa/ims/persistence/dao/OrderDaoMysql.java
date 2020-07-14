@@ -50,30 +50,29 @@ public class OrderDaoMysql implements Dao<Order> {
 		long fkCustomerId = order.getLong("fk_customer_id");
 		ArrayList<Item> items = new ArrayList<>(); // Items in order
 		long itemId = 0;
-		String itemName = "";
-		int value = 0;
-		int amount = 0;
 		ResultSet itemSet = null; // Holds items db info
+		int orderCost = calculateCost(id);
 
 		try (Connection connection = DriverManager.getConnection(jdbcConnectionUrl, username, password);
 				Statement statement = connection.createStatement();) {
 			itemSet = statement.executeQuery("SELECT * FROM items");
+			while (itemsRs.next()) {
+				itemId = itemsRs.getLong("fk_item_id");
+				while (itemSet.next()) {
+					if (itemSet.getLong("id") == itemId) {
+						items.add(new Item(itemId, itemSet.getString("item_name"), itemSet.getInt("value"),
+								itemSet.getInt("amount")));
+					}
+				}
+			}
+			Order returnable = new Order(id, fkCustomerId, items);
+			returnable.setTotalCost(orderCost);
+			return returnable;
 		} catch (Exception e) {
 			LOGGER.debug(e.getStackTrace());
 			LOGGER.error(e.getMessage());
 		}
-
-		while (itemsRs.next()) {
-			itemId = itemsRs.getLong("fk_item_id");
-			while (itemSet.next()) {
-				if (itemSet.getLong("id") == itemId) {
-					items.add(new Item(itemId, itemSet.getString("item_name"), itemSet.getInt("value"),
-							itemSet.getInt("amount")));
-				}
-			}
-		}
-
-		return new Order(id, fkCustomerId, items);
+		return null;
 	}
 
 	@Override
@@ -143,7 +142,7 @@ public class OrderDaoMysql implements Dao<Order> {
 		try (Connection connection = DriverManager.getConnection(jdbcConnectionUrl, username, password);
 				Statement statement = connection.createStatement();) {
 			statement.executeUpdate("INSERT INTO order_items(fk_order_id, fk_item_id, quantity)" + "VALUES("
-					+ order.getFkCustomerId() + ", " + item.getId() + ", " + quantity + ")");
+					+ order.getId() + ", " + item.getId() + ", " + quantity + ")");
 			return readOrder(order.getId());
 		} catch (SQLException e) {
 			LOGGER.debug(e.getStackTrace());
@@ -169,8 +168,24 @@ public class OrderDaoMysql implements Dao<Order> {
 		}
 	}
 
-	public void calculateCost(long id) {
-
+	public int calculateCost(long id) {
+		try (Connection connection = DriverManager.getConnection(jdbcConnectionUrl, username, password);
+				Statement statement = connection.createStatement();) {
+			ResultSet cost = statement.executeQuery("SELECT SUM(order_items.quantity*items.value) AS Cost"
+					+ " FROM customers" + " JOIN orders ON customers.id=orders.fk_customer_id"
+					+ " JOIN order_items ON orders.id=order_items.fk_order_id"
+					+ " JOIN items ON order_items.fk_item_id=items.id" + " WHERE orders.id=" + id);
+			String label = cost.getMetaData().getColumnLabel(1);
+//			ResultSetMetaData rsmd = cost.getMetaData();
+			cost.next();
+			int oCost = cost.getInt(label);
+			cost.close();
+			return oCost;
+		} catch (SQLException e) {
+			LOGGER.debug(e.getStackTrace());
+			LOGGER.error(e.getMessage());
+		}
+		return 0;
 	}
 
 }

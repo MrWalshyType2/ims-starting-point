@@ -21,7 +21,16 @@ public class Order {
 	}
 
 	public Order(long id, long fkCustomerId, ArrayList<Item> items) {
+		this.id = id;
+		this.fkCustomerId = id;
 		this.itemsInOrder = items;
+	}
+
+	public Order(long id, long fkCustomerId, ArrayList<Item> items, int cost) {
+		this.id = id;
+		this.fkCustomerId = id;
+		this.itemsInOrder = items;
+		this.totalCost = cost;
 	}
 
 	public long getId() {
