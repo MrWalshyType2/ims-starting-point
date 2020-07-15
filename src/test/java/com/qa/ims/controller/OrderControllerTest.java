@@ -15,6 +15,7 @@ import org.mockito.Mockito;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import com.qa.ims.persistence.domain.Item;
 import com.qa.ims.persistence.domain.Order;
 import com.qa.ims.services.ItemServices;
 import com.qa.ims.services.OrderServices;
@@ -48,5 +49,22 @@ public class OrderControllerTest {
 		orders.add(new Order(53));
 		Mockito.when(orderServices.readAll()).thenReturn(orders);
 		assertEquals(orders, orderController.readAll());
+	}
+
+	@Test
+	public void createTest() {
+		Mockito.doReturn("3", "3", "30").when(orderController).getInput();
+		Order order = new Order(3);
+		Mockito.when(orderServices.create(order)).thenReturn(order);
+
+		List<Item> items = new ArrayList<>();
+		items.add(new Item(3, "Freddo", 3, 30));
+		Item item = items.get(0);
+		Mockito.when(itemServices.readAll()).thenReturn(items);
+
+		order.setItem(item);
+		order.setItemQuantity(3);
+
+		Mockito.when(orderServices.update(order)).thenReturn(order);
 	}
 }
