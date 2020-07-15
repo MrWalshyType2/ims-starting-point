@@ -64,7 +64,7 @@ public class ItemControllerTest {
 	public void updateTest() {
 		// Mockito.doReturn("1", "Freddo", "50", "30").when(itemController).getInput();
 		Item item = new Item("Freddo", 50, 30);
-		item.setId(1);
+		item.setId(1L);
 		Mockito.when(itemService.update(item)).thenReturn(item);
 		assertEquals(item, itemService.update(item));
 	}

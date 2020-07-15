@@ -53,12 +53,16 @@ public class OrderControllerTest {
 
 	@Test
 	public void createTest() {
-		Mockito.doReturn("3", "3", "30").when(orderController).getInput();
+		Mockito.doReturn("3", "3", "30", "n").when(orderController).getInput();
+//		Long orderId = Long.valueOf(3);
+//		Long itemId = Long.valueOf(3);
+//		int quantity = 30;
 		Order order = new Order(3);
+
 		Mockito.when(orderServices.create(order)).thenReturn(order);
 
 		List<Item> items = new ArrayList<>();
-		items.add(new Item(3, "Freddo", 3, 30));
+		items.add(new Item(3L, "Freddo", 3, 30));
 		Item item = items.get(0);
 		Mockito.when(itemServices.readAll()).thenReturn(items);
 
@@ -66,7 +70,7 @@ public class OrderControllerTest {
 		order.setItemQuantity(3);
 
 		Mockito.when(orderServices.update(order)).thenReturn(order);
-		// assertEquals(order, orderController.create()); // this causes an infinite
+		assertEquals(order, orderController.create()); // this causes an infinite
 		// loop?
 	}
 
@@ -84,7 +88,7 @@ public class OrderControllerTest {
 		// Mockito.when(o.getId()).thenReturn(1L);
 
 		List<Item> items = new ArrayList<>();
-		items.add(new Item(1, "Freddo", 3, 5));
+		items.add(new Item(1L, "Freddo", 3, 5));
 		Mockito.when(itemServices.readAll()).thenReturn(items);
 	}
 
