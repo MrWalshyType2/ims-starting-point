@@ -6,7 +6,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.List;
 
 import org.apache.log4j.Logger;
 
@@ -46,7 +45,7 @@ public class CustomerDaoMysql implements Dao<Customer> {
 	 * @return A list of customers
 	 */
 	@Override
-	public List<Customer> readAll() {
+	public ArrayList<Customer> readAll() {
 		try (Connection connection = DriverManager.getConnection(jdbcConnectionUrl, username, password);
 				Statement statement = connection.createStatement();
 				ResultSet resultSet = statement.executeQuery("select * from customers");) {
@@ -84,9 +83,8 @@ public class CustomerDaoMysql implements Dao<Customer> {
 	public Customer create(Customer customer) {
 		try (Connection connection = DriverManager.getConnection(jdbcConnectionUrl, username, password);
 				Statement statement = connection.createStatement();) {
-			statement.executeUpdate("insert into customers(first_name, surname, email, password) " + "values('"
-					+ customer.getFirstName() + "','" + customer.getSurname() + "', '" + customer.getEmail() + "', '"
-					+ customer.getPassword() + "')");
+			statement.executeUpdate("insert into customers(first_name, surname) " + "values('" + customer.getFirstName()
+					+ "','" + customer.getSurname() + "')");
 			return readLatest();
 		} catch (Exception e) {
 			LOGGER.debug(e.getStackTrace());
@@ -120,8 +118,7 @@ public class CustomerDaoMysql implements Dao<Customer> {
 		try (Connection connection = DriverManager.getConnection(jdbcConnectionUrl, username, password);
 				Statement statement = connection.createStatement();) {
 			statement.executeUpdate("update customers set first_name ='" + customer.getFirstName() + "', surname ='"
-					+ customer.getSurname() + "', email='" + customer.getEmail() + "', password='"
-					+ customer.getPassword() + "' where id =" + customer.getId());
+					+ customer.getSurname() + "' where id =" + customer.getId());
 			return readCustomer(customer.getId());
 		} catch (Exception e) {
 			LOGGER.debug(e.getStackTrace());

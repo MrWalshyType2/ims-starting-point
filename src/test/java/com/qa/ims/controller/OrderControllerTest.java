@@ -53,10 +53,7 @@ public class OrderControllerTest {
 
 	@Test
 	public void createTest() {
-		Mockito.doReturn("3", "3", "30", "n").when(orderController).getInput();
-//		Long orderId = Long.valueOf(3);
-//		Long itemId = Long.valueOf(3);
-//		int quantity = 30;
+		Mockito.doReturn("3", "3", "30", "y").when(orderController).getInput();
 		Order order = new Order(3L);
 
 		Mockito.when(orderServices.create(order)).thenReturn(order);
@@ -65,31 +62,32 @@ public class OrderControllerTest {
 		items.add(new Item(3L, "Freddo", 3, 30));
 		Item item = items.get(0);
 		Mockito.when(itemServices.readAll()).thenReturn(items);
+		Order newOrder = new Order(3L);
+		newOrder.setItem(item);
+		newOrder.setItemQuantity(3);
 
-		order.setItem(item);
-		order.setItemQuantity(3);
-
-		Mockito.when(orderServices.update(order)).thenReturn(order);
-		assertEquals(order, orderController.create()); // this causes an infinite
-		// loop?
+		Mockito.when(orderServices.update(order)).thenReturn(newOrder);
+		assertEquals(newOrder, orderController.create());
 	}
 
 	@Test
 	public void updateTest() {
-		Mockito.doReturn("1", "n").when(orderController).getInput();
-
-		List<Order> orders = new ArrayList<>();
-		orders.add(new Order(3L));
-		orders.add(new Order(2L));
-
+		Mockito.doReturn("1", "n", "1").when(orderController).getInput();
 		Order order = new Order(1L);
-		Order o = new Order(1L);
-		Mockito.when(orderServices.readAll()).thenReturn(orders);
-		// Mockito.when(o.getId()).thenReturn(1L);
+		Mockito.when(orderServices.update(order)).thenReturn(order);
 
-		List<Item> items = new ArrayList<>();
-		items.add(new Item(1L, "Freddo", 3, 5));
-		Mockito.when(itemServices.readAll()).thenReturn(items);
+//		List<Order> orders = new ArrayList<>();
+//		orders.add(new Order(3L));
+//		orders.add(new Order(2L));
+//
+//		Order order = new Order(1L);
+//		Order o = new Order(1L);
+//		Mockito.when(orderServices.readAll()).thenReturn(orders);
+//		// Mockito.when(o.getId()).thenReturn(1L);
+//
+//		List<Item> items = new ArrayList<>();
+//		items.add(new Item(1L, "Freddo", 3, 5));
+//		Mockito.when(itemServices.readAll()).thenReturn(items);
 	}
 
 	@Test

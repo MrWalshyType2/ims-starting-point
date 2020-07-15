@@ -50,23 +50,26 @@ public class ItemControllerTest {
 
 	@Test
 	public void createTest() {
-		// Mockito.doReturn("Freddo", "3", "40").when(itemController).getInput();
-		Item item = new Item("Freddo", 3, 40);
+		String itemName = "Freddo";
+		String value = "3";
+		String amount = "40";
+		Mockito.doReturn(itemName, value, amount).when(itemController).getInput();
+		// Mockito.when(itemController.getInput()).thenReturn(itemName, value, amount);
+		Item item = new Item(itemName, Integer.parseInt(value), Integer.parseInt(amount));
 		Item savedItem = new Item("Freddo", 3, 40);
 
 		Mockito.when(itemService.create(item)).thenReturn(savedItem);
 
 		// Assert.assertEquals(expected, actual);
-		assertEquals(savedItem, itemService.create(item));
+		assertEquals(savedItem, itemController.create());
 	}
 
 	@Test
 	public void updateTest() {
-		// Mockito.doReturn("1", "Freddo", "50", "30").when(itemController).getInput();
-		Item item = new Item("Freddo", 50, 30);
-		item.setId(1L);
+		Mockito.doReturn("1", "Freddo", "50", "30").when(itemController).getInput();
+		Item item = new Item(1L, "Freddo", 50, 30);
 		Mockito.when(itemService.update(item)).thenReturn(item);
-		assertEquals(item, itemService.update(item));
+		assertEquals(item, itemController.update());
 	}
 
 	@Test
