@@ -3,8 +3,8 @@ package com.qa.ims.persistence.domain;
 import java.util.ArrayList;
 
 public class Order {
-	private long id;
-	private long fkCustomerId;
+	private Long id;
+	private Long fkCustomerId;
 	private Item item = null;
 	private String name;
 	private int totalCost;
@@ -13,29 +13,29 @@ public class Order {
 	private boolean update = false;
 	private boolean updateMode = false;
 
-	public Order(long fkCustomerId) {
+	public Order(Long fkCustomerId) {
 		this.fkCustomerId = fkCustomerId;
 	}
 
-	public Order(long id, long fkCustomerId) {
+	public Order(Long id, Long fkCustomerId) {
 		this.id = id;
 		this.fkCustomerId = fkCustomerId;
 	}
 
-	public Order(long id, long fkCustomerId, ArrayList<Item> items) {
+	public Order(Long id, Long fkCustomerId, ArrayList<Item> items) {
 		this.id = id;
 		this.fkCustomerId = id;
 		this.itemsInOrder = items;
 	}
 
-	public Order(long id, long fkCustomerId, ArrayList<Item> items, int cost) {
+	public Order(Long id, Long fkCustomerId, ArrayList<Item> items, int cost) {
 		this.id = id;
 		this.fkCustomerId = id;
 		this.itemsInOrder = items;
 		this.totalCost = cost;
 	}
 
-	public long getId() {
+	public Long getId() {
 		return this.id;
 	}
 
@@ -43,11 +43,11 @@ public class Order {
 		this.id = id;
 	}
 
-	public long getFkCustomerId() {
+	public Long getFkCustomerId() {
 		return fkCustomerId;
 	}
 
-	public void setFkCustomerId(long fkCustomerId) {
+	public void setFkCustomerId(Long fkCustomerId) {
 		this.fkCustomerId = fkCustomerId;
 	}
 
