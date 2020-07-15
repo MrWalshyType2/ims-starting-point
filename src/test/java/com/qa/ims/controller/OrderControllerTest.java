@@ -66,5 +66,24 @@ public class OrderControllerTest {
 		order.setItemQuantity(3);
 
 		Mockito.when(orderServices.update(order)).thenReturn(order);
+		assertEquals(order, orderController.create());
 	}
+
+//	@Test
+//	public void updateTest() {
+//		Mockito.doReturn("1", "n").when(orderController).getInput();
+//
+//		List<Order> orders = new ArrayList<>();
+//		orders.add(new Order(3));
+//		orders.add(new Order(2));
+//
+//		Order order = new Order(1);
+//		Order o = new Order(1);
+//		Mockito.when(orderServices.readAll()).thenReturn(orders);
+//		// Mockito.when(o.getId()).thenReturn(1L);
+//
+//		List<Item> items = new ArrayList<>();
+//		items.add(new Item(1, "Freddo", 3, 5));
+//		Mockito.when(itemServices.readAll()).thenReturn(items);
+//	}
 }
