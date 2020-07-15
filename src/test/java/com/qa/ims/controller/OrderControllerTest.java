@@ -44,9 +44,9 @@ public class OrderControllerTest {
 	public void readAllTest() {
 		OrderController orderController = new OrderController(orderServices, itemServices);
 		List<Order> orders = new ArrayList<>();
-		orders.add(new Order(4));
-		orders.add(new Order(6));
-		orders.add(new Order(53));
+		orders.add(new Order(4L));
+		orders.add(new Order(6L));
+		orders.add(new Order(53L));
 		Mockito.when(orderServices.readAll()).thenReturn(orders);
 		assertEquals(orders, orderController.readAll());
 	}
@@ -57,7 +57,7 @@ public class OrderControllerTest {
 //		Long orderId = Long.valueOf(3);
 //		Long itemId = Long.valueOf(3);
 //		int quantity = 30;
-		Order order = new Order(3);
+		Order order = new Order(3L);
 
 		Mockito.when(orderServices.create(order)).thenReturn(order);
 
@@ -79,11 +79,11 @@ public class OrderControllerTest {
 		Mockito.doReturn("1", "n").when(orderController).getInput();
 
 		List<Order> orders = new ArrayList<>();
-		orders.add(new Order(3));
-		orders.add(new Order(2));
+		orders.add(new Order(3L));
+		orders.add(new Order(2L));
 
-		Order order = new Order(1);
-		Order o = new Order(1);
+		Order order = new Order(1L);
+		Order o = new Order(1L);
 		Mockito.when(orderServices.readAll()).thenReturn(orders);
 		// Mockito.when(o.getId()).thenReturn(1L);
 
