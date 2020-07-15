@@ -4,14 +4,18 @@ import static org.junit.Assert.assertEquals;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import com.qa.ims.persistence.domain.Order;
 import com.qa.ims.services.ItemServices;
 import com.qa.ims.services.OrderServices;
 
@@ -37,6 +41,12 @@ public class OrderControllerTest {
 
 	@Test
 	public void readAllTest() {
-
+		OrderController orderController = new OrderController(orderServices, itemServices);
+		List<Order> orders = new ArrayList<>();
+		orders.add(new Order(4));
+		orders.add(new Order(6));
+		orders.add(new Order(53));
+		Mockito.when(orderServices.readAll()).thenReturn(orders);
+		assertEquals(orders, orderController.readAll());
 	}
 }
