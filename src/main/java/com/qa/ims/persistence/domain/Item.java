@@ -53,7 +53,7 @@ public class Item {
 
 	@Override
 	public String toString() {
-		return "Item Name: " + itemName + ", Value: £" + value + ", Amount: " + amount;
+		return "ID: " + id + ", Item Name: " + itemName + ", Value: £" + value + ", Amount: " + amount;
 	}
 
 	@Override

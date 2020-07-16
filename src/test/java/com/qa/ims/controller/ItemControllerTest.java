@@ -4,9 +4,15 @@ import static org.junit.Assert.assertEquals;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -15,11 +21,38 @@ import org.mockito.Mockito;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import com.qa.ims.Ims;
 import com.qa.ims.persistence.domain.Item;
 import com.qa.ims.services.ItemServices;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ItemControllerTest {
+	private static String jdbcUrl = "jdbc:mysql://127.0.0.1:3306/ims_test1?serverTimezone=UTC";
+	private static String username = "root";
+	private static String password = "root";
+
+	public static final Logger LOGGER = Logger.getLogger(ItemControllerTest.class);
+
+	@BeforeClass
+	public static void init() {
+		Ims ims = new Ims();
+		ims.init(jdbcUrl, username, password, "src/test/resources/sql-schema.sql");
+		// customerDao = new
+		// CustomerDaoMysql("jdbc:mysql://127.0.0.1:3306/ims_test2?serverTimezone=UTC",
+		// "root", "root");
+	}
+
+	@Before
+	public void setUp() {
+		try (Connection connection = DriverManager.getConnection(jdbcUrl, username, password);
+				Statement statement = connection.createStatement();) {
+			statement.executeUpdate("delete from items");
+		} catch (Exception e) {
+			LOGGER.debug(e.getStackTrace());
+			LOGGER.error(e.getMessage());
+		}
+	}
+
 	@Mock
 	private ItemServices itemService;
 

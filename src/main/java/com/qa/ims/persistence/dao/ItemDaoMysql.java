@@ -94,7 +94,7 @@ public class ItemDaoMysql implements Dao<Item> {
 			statement.executeUpdate("INSERT INTO items(item_name, value, amount)" + " VALUES('" + item.getItemName()
 					+ "', " + item.getValue() + ", " + item.getAmount() + ")");
 			return readLatest();
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			LOGGER.debug(e.getStackTrace());
 			LOGGER.error(e.getMessage());
 		}
@@ -108,7 +108,7 @@ public class ItemDaoMysql implements Dao<Item> {
 			statement.executeUpdate("update items set item_name='" + item.getItemName() + "', value=" + item.getValue()
 					+ ", amount=" + item.getAmount() + " where id =" + item.getId());
 			return readItem(item.getId());
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			LOGGER.debug(e.getStackTrace());
 			LOGGER.error(e.getMessage());
 		}
@@ -120,7 +120,7 @@ public class ItemDaoMysql implements Dao<Item> {
 		try (Connection connection = DriverManager.getConnection(jdbcConnectionUrl, username, password);
 				Statement statement = connection.createStatement();) {
 			statement.executeUpdate("DELETE FROM items WHERE id =" + id);
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			LOGGER.debug(e.getStackTrace());
 			LOGGER.error(e.getMessage());
 		}

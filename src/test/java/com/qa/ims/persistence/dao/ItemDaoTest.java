@@ -1,6 +1,8 @@
 package com.qa.ims.persistence.dao;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNull;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -20,7 +22,7 @@ public class ItemDaoTest {
 	private static String username = "root";
 	private static String password = "root";
 
-	public static final Logger LOGGER = Logger.getLogger(CustomerDaoTest.class);
+	public static final Logger LOGGER = Logger.getLogger(ItemDaoTest.class);
 
 	@BeforeClass
 	public static void init() {
@@ -43,6 +45,12 @@ public class ItemDaoTest {
 	}
 
 	@Test
+	public void constructorTest() {
+		ItemDaoMysql idao = new ItemDaoMysql(username, password);
+		ItemDaoMysql idao2 = new ItemDaoMysql();
+	}
+
+	@Test
 	public void createTest() {
 		ItemDaoMysql itemDao = new ItemDaoMysql(jdbcUrl, username, password);
 		String itemName = "Freddo";
@@ -53,6 +61,18 @@ public class ItemDaoTest {
 		item = itemDao.create(item);
 		savedItem.setId(item.getId());
 		assertEquals(savedItem.getAmount(), item.getAmount());
+	}
+
+	@Test
+	public void createFailTest() {
+		ItemDaoMysql itemDao = new ItemDaoMysql(jdbcUrl, username, password);
+		String itemName = "Freddo";
+		int value = 5;
+		int quantity = 100;
+		Item item = null;
+		Item savedItem = new Item(itemName, value, quantity);
+		item = itemDao.create(item);
+		assertNull(item);
 	}
 
 	@Test
@@ -76,6 +96,14 @@ public class ItemDaoTest {
 	}
 
 	@Test
+	public void readItemFailTest() {
+		ItemDaoMysql itemDao = new ItemDaoMysql(jdbcUrl, username, password);
+		Item savedItem = itemDao.create(new Item("Freddo", 5, 523));
+		Long id = 567L;
+		assertNull(itemDao.readItem(id));
+	}
+
+	@Test
 	public void updateTest() {
 		ItemDaoMysql itemDao = new ItemDaoMysql(jdbcUrl, username, password);
 		Item savedItem = itemDao.create(new Item("Freddo", 55, 3));
@@ -85,11 +113,29 @@ public class ItemDaoTest {
 	}
 
 	@Test
+	public void updateFailTest() {
+		ItemDaoMysql itemDao = new ItemDaoMysql(jdbcUrl, username, password);
+		Item savedItem = itemDao.create(new Item("Freddo", 55, 3));
+		savedItem = null;
+		Item updated = itemDao.update(savedItem);
+		assertNull(updated);
+	}
+
+	@Test
 	public void deleteTest() {
 		ItemDaoMysql itemDao = new ItemDaoMysql(jdbcUrl, username, password);
 		Item savedItem = itemDao.create(new Item("Freddo", 55, 34));
 		itemDao.delete(savedItem.getId());
 		ArrayList<Item> empty = new ArrayList<>();
 		assertEquals(empty, itemDao.readAll());
+	}
+
+	@Test
+	public void deleteFailTest() {
+		ItemDaoMysql itemDao = new ItemDaoMysql(jdbcUrl, username, password);
+		Item savedItem = itemDao.create(new Item("Freddo", 55, 34));
+		itemDao.delete(-5);
+		ArrayList<Item> empty = new ArrayList<>();
+		assertNotEquals(empty, itemDao.readAll());
 	}
 }

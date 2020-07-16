@@ -109,7 +109,7 @@ public class Order {
 
 	@Override
 	public String toString() {
-		return "Order [id=" + id + ", fkCustomerId=" + fkCustomerId + "]";
+		return "Order [id=" + id + ", fkCustomerId=" + fkCustomerId + ", Cost=" + totalCost + "]";
 	}
 
 	@Override

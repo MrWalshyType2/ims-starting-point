@@ -50,7 +50,7 @@ public class ItemTest {
 
 	@Test
 	public void toStringTest() {
-		String toString = "Item Name: Freddo, Value: £6, Amount: 3";
+		String toString = "ID: 1, Item Name: Freddo, Value: £6, Amount: 3";
 		assertEquals(toString, item.toString());
 	}
 

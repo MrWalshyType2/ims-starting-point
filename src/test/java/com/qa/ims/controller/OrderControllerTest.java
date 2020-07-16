@@ -4,9 +4,15 @@ import static org.junit.Assert.assertEquals;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -15,6 +21,7 @@ import org.mockito.Mockito;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import com.qa.ims.Ims;
 import com.qa.ims.persistence.domain.Item;
 import com.qa.ims.persistence.domain.Order;
 import com.qa.ims.services.ItemServices;
@@ -22,6 +29,38 @@ import com.qa.ims.services.OrderServices;
 
 @RunWith(MockitoJUnitRunner.class)
 public class OrderControllerTest {
+	private static String jdbcUrl = "jdbc:mysql://127.0.0.1:3306/ims_test1?serverTimezone=UTC";
+	private static String username = "root";
+	private static String password = "root";
+
+	public static final Logger LOGGER = Logger.getLogger(OrderControllerTest.class);
+
+	@BeforeClass
+	public static void init() {
+		Ims ims = new Ims();
+		ims.init(jdbcUrl, username, password, "src/test/resources/sql-schema.sql");
+		// customerDao = new
+		// CustomerDaoMysql("jdbc:mysql://127.0.0.1:3306/ims_test2?serverTimezone=UTC",
+		// "root", "root");
+	}
+
+	@Before
+	public void setUp() {
+		try (Connection connection = DriverManager.getConnection(jdbcUrl, username, password);
+				Statement statement = connection.createStatement();
+				Statement statement2 = connection.createStatement();
+				Statement statement3 = connection.createStatement();
+				Statement statement4 = connection.createStatement();) {
+			statement.executeUpdate("delete from orders");
+			statement2.executeUpdate("delete from order_items");
+			statement3.executeUpdate("delete from customers");
+			statement4.executeUpdate("delete from items");
+		} catch (Exception e) {
+			LOGGER.debug(e.getStackTrace());
+			LOGGER.error(e.getMessage());
+		}
+	}
+
 	@Mock
 	private OrderServices orderServices;
 
@@ -72,22 +111,10 @@ public class OrderControllerTest {
 
 	@Test
 	public void updateTest() {
-		Mockito.doReturn("1", "n", "1").when(orderController).getInput();
-		Order order = new Order(1L);
-		Mockito.when(orderServices.update(order)).thenReturn(order);
-
-//		List<Order> orders = new ArrayList<>();
-//		orders.add(new Order(3L));
-//		orders.add(new Order(2L));
-//
-//		Order order = new Order(1L);
-//		Order o = new Order(1L);
-//		Mockito.when(orderServices.readAll()).thenReturn(orders);
-//		// Mockito.when(o.getId()).thenReturn(1L);
-//
-//		List<Item> items = new ArrayList<>();
-//		items.add(new Item(1L, "Freddo", 3, 5));
-//		Mockito.when(itemServices.readAll()).thenReturn(items);
+		// OrderController oc = new OrderController(new OrderServices(new
+		// OrderDaoMysql(jdbcUrl, username, password)),
+		// new ItemServices(new ItemDaoMysql(jdbcUrl, username, password)));
+		// Mockito.when(oc.getInput()).thenReturn("1");
 	}
 
 	@Test
