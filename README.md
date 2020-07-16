@@ -153,11 +153,13 @@ In an elevated command line tool, navigate to the downloaded repository location
 
 ### Unit Tests 
 
-Unit tests test individual methods/functionality to ensure each functions as expected. My tests return a Surefire report when executed with: mvn package.
+Unit tests test individual methods/functionality to ensure each functions as expected. My tests return a Surefire report and executable jar files when executed, from the project root, with:
 
 ```
-Give an example
+mvn package
 ```
+
+![Surefire report](./surefireReport.png)
 
 ## Dependencies
 
@@ -182,7 +184,9 @@ I used [GitHub](http://github.com/) for version control.
 ## Authors
 
 * **Chris Perrins** - *Initial work* - [christophperrins](https://github.com/christophperrins)
+
 * **Nick Johnson** - *Refinements* - [nickrstewarttds](https://github.com/nickrstewarttds)
+
 * **Morgan Walsh** - *Project lead* - [morganwalsh] (https://github.com/MrWalshyType2)
 
 ## License
@@ -192,6 +196,12 @@ This project is licensed under the MIT license - see the [LICENSE.md](LICENSE.md
 *For help in [Choosing a license](https://choosealicense.com/)*
 
 ## Acknowledgments
+
+* **Chris Perrins** - *Provided the initial project starting point.* - [christophperrins](https://github.com/christophperrins)
+
+* **Nick Johnson** - *Refined the initial project starting point.* - [nickrstewarttds](https://github.com/nickrstewarttds)
+
+* **Vinesh Ghela** - *The 2020June Cohort trainer who aided others, and myself, when stuck.* - [vineshghela](https://github.com/vineshghela)
 
 * Hat-tip to anyone whose code was used
 * Shout-out to anyone who helped you out
