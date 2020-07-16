@@ -201,9 +201,12 @@ This project is licensed under the MIT license - see the [LICENSE.md](LICENSE.md
 
 * **Nick Johnson** - *Refined the initial project starting point.* - [nickrstewarttds](https://github.com/nickrstewarttds)
 
-* **Vinesh Ghela** - *The 2020June Cohort trainer who aided others, and myself, when stuck.* - [vineshghela](https://github.com/vineshghela)
+* **Vinesh Ghela** - *A 2020JuneSoftware1 Cohort trainer who aided others, and myself, when stuck.* - [vineshghela](https://github.com/vineshghela)
 
-* Hat-tip to anyone whose code was used
-* Shout-out to anyone who helped you out
-* Inspiration
-* etc.
+* **Alan Davis** - *A 2020JuneSoftware1 Cohort trainer who aided others, and myself, when stuck.* - [alandavies](https://github.com/MorickClive)
+
+* **Jordan Harrison** - *A Cohort trainer who dropped in here and there to give tips, tricks, and help in general.* - [jordanharrison](https://github.com/JHarry444)
+
+* **Gianluca Fernandez** - *Provided knowledge of the keyword SCHEMA rather than DATABASE for MySQL*
+
+
