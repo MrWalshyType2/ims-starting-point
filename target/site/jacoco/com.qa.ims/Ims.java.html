@@ -102,7 +102,7 @@ import com.qa.ims.utils.Utils;
 	 * @param password
 	 */
 	public void init(String username, String password) {
-<span class="fc" id="L105">		init(&quot;jdbc:mysql://&quot; + Utils.MYSQL_URL + &quot;/ims_test1?serverTimezone=UTC&quot;, username, password,</span>
+<span class="fc" id="L105">		init(&quot;jdbc:mysql://&quot; + Utils.MYSQL_URL + &quot;/ims?serverTimezone=UTC&quot;, username, password,</span>
 <span class="fc" id="L106">				&quot;src/main/resources/sql-schema.sql&quot;);</span>
 <span class="fc" id="L107">	}</span>
 
@@ -130,9 +130,9 @@ import com.qa.ims.utils.Utils;
 <span class="fc" id="L130">		try (Connection connection = DriverManager.getConnection(jdbcConnectionUrl, username, password);</span>
 <span class="fc" id="L131">				BufferedReader br = new BufferedReader(new FileReader(fileLocation));) {</span>
 			String string;
-<span class="fc bfc" id="L133" title="All 2 branches covered.">			while ((string = br.readLine()) != null) {</span>
+<span class="pc bpc" id="L133" title="1 of 2 branches missed.">			while ((string = br.readLine()) != null) {</span>
 <span class="fc" id="L134">				try (Statement statement = connection.createStatement();) {</span>
-<span class="fc" id="L135">					statement.executeUpdate(string);</span>
+<span class="nc" id="L135">					statement.executeUpdate(string);</span>
 				}
 			}
 <span class="fc" id="L138">		} catch (SQLException | IOException e) {</span>

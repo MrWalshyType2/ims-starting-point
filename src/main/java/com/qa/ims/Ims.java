@@ -102,7 +102,7 @@ public class Ims {
 	 * @param password
 	 */
 	public void init(String username, String password) {
-		init("jdbc:mysql://" + Utils.MYSQL_URL + "/ims_test1?serverTimezone=UTC", username, password,
+		init("jdbc:mysql://" + Utils.MYSQL_URL + "/ims?serverTimezone=UTC", username, password,
 				"src/main/resources/sql-schema.sql");
 	}
 

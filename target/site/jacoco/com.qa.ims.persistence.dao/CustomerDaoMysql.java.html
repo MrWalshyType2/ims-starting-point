@@ -21,7 +21,7 @@ public class CustomerDaoMysql implements Dao&lt;Customer&gt; {
 	private String password;
 
 <span class="fc" id="L23">	public CustomerDaoMysql(String username, String password) {</span>
-<span class="fc" id="L24">		this.jdbcConnectionUrl = &quot;jdbc:mysql://&quot; + Utils.MYSQL_URL + &quot;/ims_test1?serverTimezone=UTC&quot;;</span>
+<span class="fc" id="L24">		this.jdbcConnectionUrl = &quot;jdbc:mysql://&quot; + Utils.MYSQL_URL + &quot;/ims?serverTimezone=UTC&quot;;</span>
 <span class="fc" id="L25">		this.username = username;</span>
 <span class="fc" id="L26">		this.password = password;</span>
 <span class="fc" id="L27">	}</span>

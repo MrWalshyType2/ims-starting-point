@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: com.qa.ims.controller.OrderControllerTest
 -------------------------------------------------------------------------------
-Tests run: 5, Failures: 0, Errors: 0, Skipped: 2, Time elapsed: 0.405 sec
+Tests run: 5, Failures: 0, Errors: 0, Skipped: 2, Time elapsed: 0.401 sec

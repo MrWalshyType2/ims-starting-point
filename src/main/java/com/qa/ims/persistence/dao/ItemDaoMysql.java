@@ -25,7 +25,7 @@ public class ItemDaoMysql implements Dao<Item> {
 	}
 
 	public ItemDaoMysql(String username, String password) {
-		this.jdbcConnectionUrl = "jdbc:mysql://" + Utils.MYSQL_URL + "/ims_test1?serverTimezone=UTC";
+		this.jdbcConnectionUrl = "jdbc:mysql://" + Utils.MYSQL_URL + "/ims?serverTimezone=UTC";
 		this.username = username;
 		this.password = password;
 	}
