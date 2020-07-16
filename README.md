@@ -21,44 +21,45 @@ https://www.java.com/en/download/
 Step 1:
 
 ```
-Download the jar file from the Github repo:
-	
+Download the jar file, with-dependencies, from the GitHub repository:
+	Navigate to: https://github.com/MrWalshyType2/ims-starting-point/tree/develop/target
 ```
 
-And repeat
+Step 2:
 
 ```
-until finished
+In an elevated command line tool, navigate to the downloaded jar files storage location, then enter the following command to run:
+	java -jar ./MorganWalsh-20SoftwareJune1-jar-with-dependencies.jar
 ```
 
 End with an example of getting some data out of the system or using it for a little demo
 
 ## Running the tests
 
-Explain how to run the automated tests for this system. Break down into which tests and what they do
+Step 1:
+
+```
+To run the tests, fork the repository at:
+	https://github.com/MrWalshyType2/ims-starting-point/
+```
+
+Step 2:
+
+```
+In an elevated command line tool, navigate to the downloaded repository location and run the tests with:
+	mvn package
+```
 
 ### Unit Tests 
 
-Explain what these tests test, why and how to run them
+Unit tests test individual methods/functionality to ensure each functions as expected. My tests return a Surefire report when executed with: mvn package.
 
 ```
 Give an example
 ```
 
-### Integration Tests 
-Explain what these tests test, why and how to run them
+## Dependencies
 
-```
-Give an example
-```
-
-### And coding style tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
 
 ## Deployment
 
