@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ItemDaoMysql.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">MorganWalsh-20SoftwareJune1</a> &gt; <a href="index.source.html" class="el_package">com.qa.ims.persistence.dao</a> &gt; <span class="el_source">ItemDaoMysql.java</span></div><h1>ItemDaoMysql.java</h1><pre class="source lang-java linenums">package com.qa.ims.persistence.dao;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+
+import org.apache.log4j.Logger;
+
+import com.qa.ims.persistence.domain.Item;
+import com.qa.ims.utils.Utils;
+
+public class ItemDaoMysql implements Dao&lt;Item&gt; {
+
+<span class="fc" id="L17">	public static final Logger LOGGER = Logger.getLogger(ItemDaoMysql.class);</span>
+
+	private String jdbcConnectionUrl;
+	private String username;
+	private String password;
+
+<span class="fc" id="L23">	public ItemDaoMysql() {</span>
+
+<span class="fc" id="L25">	}</span>
+
+<span class="fc" id="L27">	public ItemDaoMysql(String username, String password) {</span>
+<span class="fc" id="L28">		this.jdbcConnectionUrl = &quot;jdbc:mysql://&quot; + Utils.MYSQL_URL + &quot;/ims_test1?serverTimezone=UTC&quot;;</span>
+<span class="fc" id="L29">		this.username = username;</span>
+<span class="fc" id="L30">		this.password = password;</span>
+<span class="fc" id="L31">	}</span>
+
+<span class="fc" id="L33">	public ItemDaoMysql(String jdbcConnectionUrl, String username, String password) {</span>
+<span class="fc" id="L34">		this.jdbcConnectionUrl = jdbcConnectionUrl;</span>
+<span class="fc" id="L35">		this.username = username;</span>
+<span class="fc" id="L36">		this.password = password;</span>
+<span class="fc" id="L37">	}</span>
+
+	Item itemFromResultSet(ResultSet resultSet) throws SQLException {
+<span class="fc" id="L40">		Long id = resultSet.getLong(&quot;id&quot;);</span>
+<span class="fc" id="L41">		String itemName = resultSet.getString(&quot;item_name&quot;);</span>
+<span class="fc" id="L42">		int value = resultSet.getInt(&quot;value&quot;);</span>
+<span class="fc" id="L43">		int amount = resultSet.getInt(&quot;amount&quot;);</span>
+<span class="fc" id="L44">		return new Item(id, itemName, value, amount);</span>
+	}
+
+	@Override
+	public ArrayList&lt;Item&gt; readAll() {
+<span class="fc" id="L49">		try (Connection connection = DriverManager.getConnection(jdbcConnectionUrl, username, password);</span>
+<span class="fc" id="L50">				Statement statement = connection.createStatement();</span>
+<span class="fc" id="L51">				ResultSet resultSet = statement.executeQuery(&quot;select * from items&quot;);) {</span>
+<span class="fc" id="L52">			ArrayList&lt;Item&gt; items = new ArrayList&lt;&gt;();</span>
+<span class="fc bfc" id="L53" title="All 2 branches covered.">			while (resultSet.next()) {</span>
+<span class="fc" id="L54">				items.add(itemFromResultSet(resultSet));</span>
+			}
+<span class="fc" id="L56">			return items;</span>
+<span class="nc" id="L57">		} catch (SQLException e) {</span>
+<span class="nc" id="L58">			LOGGER.debug(e.getStackTrace());</span>
+<span class="nc" id="L59">			LOGGER.error(e.getMessage());</span>
+		}
+<span class="nc" id="L61">		return new ArrayList&lt;&gt;();</span>
+	}
+
+	public Item readLatest() {
+<span class="fc" id="L65">		try (Connection connection = DriverManager.getConnection(jdbcConnectionUrl, username, password);</span>
+<span class="fc" id="L66">				Statement statement = connection.createStatement();</span>
+<span class="fc" id="L67">				ResultSet resultSet = statement.executeQuery(&quot;SELECT * FROM items ORDER BY id DESC LIMIT 1&quot;);) {</span>
+<span class="fc" id="L68">			resultSet.next();</span>
+<span class="fc" id="L69">			return itemFromResultSet(resultSet);</span>
+<span class="nc" id="L70">		} catch (Exception e) {</span>
+<span class="nc" id="L71">			LOGGER.debug(e.getStackTrace());</span>
+<span class="nc" id="L72">			LOGGER.error(e.getMessage());</span>
+		}
+<span class="nc" id="L74">		return null;</span>
+	}
+
+	public Item readItem(long id) {
+<span class="fc" id="L78">		try (Connection connection = DriverManager.getConnection(jdbcConnectionUrl, username, password);</span>
+<span class="fc" id="L79">				Statement statement = connection.createStatement();</span>
+<span class="fc" id="L80">				ResultSet resultSet = statement.executeQuery(&quot;SELECT * FROM items WHERE id = &quot; + id);) {</span>
+<span class="fc" id="L81">			resultSet.next();</span>
+<span class="fc" id="L82">			return itemFromResultSet(resultSet);</span>
+<span class="fc" id="L83">		} catch (Exception e) {</span>
+<span class="fc" id="L84">			LOGGER.debug(e.getStackTrace());</span>
+<span class="fc" id="L85">			LOGGER.error(e.getMessage());</span>
+		}
+<span class="fc" id="L87">		return null;</span>
+	}
+
+	@Override
+	public Item create(Item item) {
+<span class="fc" id="L92">		try (Connection connection = DriverManager.getConnection(jdbcConnectionUrl, username, password);</span>
+<span class="fc" id="L93">				Statement statement = connection.createStatement();) {</span>
+<span class="fc" id="L94">			statement.executeUpdate(&quot;INSERT INTO items(item_name, value, amount)&quot; + &quot; VALUES('&quot; + item.getItemName()</span>
+<span class="fc" id="L95">					+ &quot;', &quot; + item.getValue() + &quot;, &quot; + item.getAmount() + &quot;)&quot;);</span>
+<span class="fc" id="L96">			return readLatest();</span>
+<span class="fc" id="L97">		} catch (Exception e) {</span>
+<span class="fc" id="L98">			LOGGER.debug(e.getStackTrace());</span>
+<span class="fc" id="L99">			LOGGER.error(e.getMessage());</span>
+		}
+<span class="fc" id="L101">		return null;</span>
+	}
+
+	@Override
+	public Item update(Item item) {
+<span class="fc" id="L106">		try (Connection connection = DriverManager.getConnection(jdbcConnectionUrl, username, password);</span>
+<span class="fc" id="L107">				Statement statement = connection.createStatement();) {</span>
+<span class="fc" id="L108">			statement.executeUpdate(&quot;update items set item_name='&quot; + item.getItemName() + &quot;', value=&quot; + item.getValue()</span>
+<span class="fc" id="L109">					+ &quot;, amount=&quot; + item.getAmount() + &quot; where id =&quot; + item.getId());</span>
+<span class="fc" id="L110">			return readItem(item.getId());</span>
+<span class="fc" id="L111">		} catch (Exception e) {</span>
+<span class="fc" id="L112">			LOGGER.debug(e.getStackTrace());</span>
+<span class="fc" id="L113">			LOGGER.error(e.getMessage());</span>
+		}
+<span class="fc" id="L115">		return null;</span>
+	}
+
+	@Override
+	public void delete(long id) {
+<span class="fc" id="L120">		try (Connection connection = DriverManager.getConnection(jdbcConnectionUrl, username, password);</span>
+<span class="fc" id="L121">				Statement statement = connection.createStatement();) {</span>
+<span class="fc" id="L122">			statement.executeUpdate(&quot;DELETE FROM items WHERE id =&quot; + id);</span>
+<span class="nc" id="L123">		} catch (Exception e) {</span>
+<span class="nc" id="L124">			LOGGER.debug(e.getStackTrace());</span>
+<span class="nc" id="L125">			LOGGER.error(e.getMessage());</span>
+		}
+<span class="fc" id="L127">	}</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

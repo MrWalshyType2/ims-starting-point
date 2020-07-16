@@ -10,19 +10,19 @@ These instructions will get you a copy of the project up and running on your loc
 ### Prerequisites
 
 What things you need to install the software and how to install them
+To run the software, you will need Java installed on your machine.
 
 ```
-Give examples
+https://www.java.com/en/download/
 ```
 
 ### Installing
 
-A step by step series of examples that tell you how to get a development env running
-
-Say what the step will be
+Step 1:
 
 ```
-Give the example
+Download the jar file from the Github repo:
+	
 ```
 
 And repeat

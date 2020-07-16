@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<checkstyle version="8.29">
+<file name="C:\Users\morga\OneDrive\Documents\QA\ims-project-morgan\src\main\java\com\qa\ims\persistence\domain\Customer.java">
+</file>
+<file name="C:\Users\morga\OneDrive\Documents\QA\ims-project-morgan\src\main\java\com\qa\ims\package-info.java">
+</file>
+<file name="C:\Users\morga\OneDrive\Documents\QA\ims-project-morgan\src\main\java\com\qa\ims\Runner.java">
+</file>
+<file name="C:\Users\morga\OneDrive\Documents\QA\ims-project-morgan\src\main\java\com\qa\ims\persistence\domain\Domain.java">
+</file>
+<file name="C:\Users\morga\OneDrive\Documents\QA\ims-project-morgan\src\main\java\com\qa\ims\controller\CrudController.java">
+</file>
+<file name="C:\Users\morga\OneDrive\Documents\QA\ims-project-morgan\src\main\java\com\qa\ims\persistence\dao\package-info.java">
+</file>
+<file name="C:\Users\morga\OneDrive\Documents\QA\ims-project-morgan\src\main\java\com\qa\ims\controller\Action.java">
+</file>
+<file name="C:\Users\morga\OneDrive\Documents\QA\ims-project-morgan\src\main\java\com\qa\ims\persistence\package-info.java">
+</file>
+<file name="C:\Users\morga\OneDrive\Documents\QA\ims-project-morgan\src\main\java\com\qa\ims\services\CrudServices.java">
+</file>
+<file name="C:\Users\morga\OneDrive\Documents\QA\ims-project-morgan\src\main\java\com\qa\ims\persistence\dao\Dao.java">
+</file>
+<file name="C:\Users\morga\OneDrive\Documents\QA\ims-project-morgan\src\main\java\com\qa\ims\utils\Utils.java">
+</file>
+<file name="C:\Users\morga\OneDrive\Documents\QA\ims-project-morgan\src\main\java\com\qa\ims\controller\CustomerController.java">
+</file>
+<file name="C:\Users\morga\OneDrive\Documents\QA\ims-project-morgan\src\main\java\com\qa\ims\controller\package-info.java">
+</file>
+<file name="C:\Users\morga\OneDrive\Documents\QA\ims-project-morgan\src\main\java\com\qa\ims\persistence\dao\CustomerDaoMysql.java">
+</file>
+<file name="C:\Users\morga\OneDrive\Documents\QA\ims-project-morgan\src\main\java\com\qa\ims\persistence\domain\package-info.java">
+</file>
+<file name="C:\Users\morga\OneDrive\Documents\QA\ims-project-morgan\src\main\java\com\qa\ims\services\package-info.java">
+</file>
+<file name="C:\Users\morga\OneDrive\Documents\QA\ims-project-morgan\src\main\java\com\qa\ims\Ims.java">
+</file>
+<file name="C:\Users\morga\OneDrive\Documents\QA\ims-project-morgan\src\main\java\com\qa\ims\services\CustomerServices.java">
+</file>
+<file name="C:\Users\morga\OneDrive\Documents\QA\ims-project-morgan\src\main\java\com\qa\ims\utils\package-info.java">
+</file>
+</checkstyle>

@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Order.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">MorganWalsh-20SoftwareJune1</a> &gt; <a href="index.source.html" class="el_package">com.qa.ims.persistence.domain</a> &gt; <span class="el_source">Order.java</span></div><h1>Order.java</h1><pre class="source lang-java linenums">package com.qa.ims.persistence.domain;
+
+import java.util.ArrayList;
+
+public class Order {
+	private Long id;
+	private Long fkCustomerId;
+<span class="fc" id="L8">	private Item item = null;</span>
+	private String name;
+	private int totalCost;
+<span class="fc" id="L11">	private int itemQuantity = 0;</span>
+<span class="fc" id="L12">	private ArrayList&lt;Item&gt; itemsInOrder = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L13">	private boolean update = false;</span>
+<span class="fc" id="L14">	private boolean updateMode = false;</span>
+
+<span class="fc" id="L16">	public Order(Long fkCustomerId) {</span>
+<span class="fc" id="L17">		this.fkCustomerId = fkCustomerId;</span>
+<span class="fc" id="L18">	}</span>
+
+<span class="fc" id="L20">	public Order(Long id, Long fkCustomerId) {</span>
+<span class="fc" id="L21">		this.id = id;</span>
+<span class="fc" id="L22">		this.fkCustomerId = fkCustomerId;</span>
+<span class="fc" id="L23">	}</span>
+
+<span class="fc" id="L25">	public Order(Long id, Long fkCustomerId, ArrayList&lt;Item&gt; items) {</span>
+<span class="fc" id="L26">		this.id = id;</span>
+<span class="fc" id="L27">		this.fkCustomerId = id;</span>
+<span class="fc" id="L28">		this.itemsInOrder = items;</span>
+<span class="fc" id="L29">	}</span>
+
+<span class="fc" id="L31">	public Order(Long id, Long fkCustomerId, ArrayList&lt;Item&gt; items, int cost) {</span>
+<span class="fc" id="L32">		this.id = id;</span>
+<span class="fc" id="L33">		this.fkCustomerId = id;</span>
+<span class="fc" id="L34">		this.itemsInOrder = items;</span>
+<span class="fc" id="L35">		this.totalCost = cost;</span>
+<span class="fc" id="L36">	}</span>
+
+	public Long getId() {
+<span class="fc" id="L39">		return this.id;</span>
+	}
+
+	public void setId(Long id) {
+<span class="fc" id="L43">		this.id = id;</span>
+<span class="fc" id="L44">	}</span>
+
+	public Long getFkCustomerId() {
+<span class="fc" id="L47">		return fkCustomerId;</span>
+	}
+
+	public void setFkCustomerId(Long fkCustomerId) {
+<span class="fc" id="L51">		this.fkCustomerId = fkCustomerId;</span>
+<span class="fc" id="L52">	}</span>
+
+	public Item getItem() {
+<span class="fc" id="L55">		return item;</span>
+	}
+
+	public void setItem(Item item) {
+<span class="fc" id="L59">		this.item = item;</span>
+<span class="fc" id="L60">	}</span>
+
+	public int getItemQuantity() {
+<span class="fc" id="L63">		return itemQuantity;</span>
+	}
+
+	public void setItemQuantity(int itemQuantity) {
+<span class="fc" id="L67">		this.itemQuantity = itemQuantity;</span>
+<span class="fc" id="L68">	}</span>
+
+	public String getName() {
+<span class="fc" id="L71">		return name;</span>
+	}
+
+	public void setName(String name) {
+<span class="fc" id="L75">		this.name = name;</span>
+<span class="fc" id="L76">	}</span>
+
+	public int getTotalCost() {
+<span class="fc" id="L79">		return totalCost;</span>
+	}
+
+	public void setTotalCost(int totalCost) {
+<span class="fc" id="L83">		this.totalCost = totalCost;</span>
+<span class="fc" id="L84">	}</span>
+
+	public ArrayList&lt;Item&gt; getItemsInOrder() {
+<span class="fc" id="L87">		return itemsInOrder;</span>
+	}
+
+	public void setItemsInOrder(ArrayList&lt;Item&gt; itemsInOrder) {
+<span class="fc" id="L91">		this.itemsInOrder = itemsInOrder;</span>
+<span class="fc" id="L92">	}</span>
+
+	public boolean isUpdate() {
+<span class="fc" id="L95">		return update;</span>
+	}
+
+	public void setUpdate(boolean update) {
+<span class="fc" id="L99">		this.update = update;</span>
+<span class="fc" id="L100">	}</span>
+
+	public boolean isUpdateMode() {
+<span class="fc" id="L103">		return updateMode;</span>
+	}
+
+	public void setUpdateMode(boolean updateMode) {
+<span class="fc" id="L107">		this.updateMode = updateMode;</span>
+<span class="fc" id="L108">	}</span>
+
+	@Override
+	public String toString() {
+<span class="fc" id="L112">		return &quot;Order [id=&quot; + id + &quot;, fkCustomerId=&quot; + fkCustomerId + &quot;, Cost=&quot; + totalCost + &quot;]&quot;;</span>
+	}
+
+	@Override
+	public int hashCode() {
+<span class="fc" id="L117">		final int prime = 31;</span>
+<span class="fc" id="L118">		int result = 1;</span>
+<span class="fc" id="L119">		result = prime * result + (int) (fkCustomerId ^ (fkCustomerId &gt;&gt;&gt; 32));</span>
+<span class="fc" id="L120">		result = prime * result + (int) (id ^ (id &gt;&gt;&gt; 32));</span>
+<span class="fc" id="L121">		return result;</span>
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+<span class="fc bfc" id="L126" title="All 2 branches covered.">		if (this == obj)</span>
+<span class="fc" id="L127">			return true;</span>
+<span class="fc bfc" id="L128" title="All 2 branches covered.">		if (obj == null)</span>
+<span class="fc" id="L129">			return false;</span>
+<span class="fc bfc" id="L130" title="All 2 branches covered.">		if (getClass() != obj.getClass())</span>
+<span class="fc" id="L131">			return false;</span>
+<span class="fc" id="L132">		Order other = (Order) obj;</span>
+<span class="fc bfc" id="L133" title="All 2 branches covered.">		if (fkCustomerId != other.fkCustomerId)</span>
+<span class="fc" id="L134">			return false;</span>
+<span class="fc bfc" id="L135" title="All 2 branches covered.">		if (id != other.id)</span>
+<span class="fc" id="L136">			return false;</span>
+<span class="fc" id="L137">		return true;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
