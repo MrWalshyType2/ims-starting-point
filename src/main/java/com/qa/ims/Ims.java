@@ -36,14 +36,18 @@ public class Ims {
 
 		init(username, password);
 
-		boolean exit = false;
-		while (!exit) {
+		while (true) {
 			LOGGER.info("Which entity would you like to use?");
 			Domain.printDomains();
 
 			Domain domain = Domain.getDomain();
-			LOGGER.info("What would you like to do with " + domain.name().toLowerCase() + ":");
 
+			if (domain.equals(Domain.STOP)) {
+				LOGGER.info("Shutting down...");
+				break;
+			}
+
+			LOGGER.info("What would you like to do with " + domain.name().toLowerCase() + ":");
 			Action.printActions();
 			Action action = Action.getAction();
 
@@ -63,9 +67,6 @@ public class Ims {
 						new OrderServices(new OrderDaoMysql(username, password)),
 						new ItemServices(new ItemDaoMysql(username, password)));
 				doAction(orderController, action);
-				break;
-			case STOP:
-				exit = true;
 				break;
 			default:
 				break;
@@ -102,7 +103,7 @@ public class Ims {
 	 * @param password
 	 */
 	public void init(String username, String password) {
-		init("jdbc:mysql://" + Utils.MYSQL_URL + "/ims?serverTimezone=UTC", username, password,
+		init("jdbc:mysql://" + Utils.MYSQL_URL + "/?serverTimezone=UTC", username, password,
 				"src/main/resources/sql-schema.sql");
 	}
 
