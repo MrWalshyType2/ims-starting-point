@@ -54,7 +54,7 @@ public class OrderTest {
 
 	@Test
 	public void toStringTest() {
-		String toString = "Order [id=1, fkCustomerId=3]";
+		String toString = "Order [id=1, fkCustomerId=3, Cost=0]";
 		assertEquals(toString, order.toString());
 	}
 

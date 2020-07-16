@@ -13,6 +13,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -61,6 +62,7 @@ public class ItemControllerTest {
 	private ItemController itemController;
 
 	@Test
+	@Ignore
 	public void getInputTest() {
 		// Using an input stream to fake input
 		String input = "HelloWorld";
@@ -82,6 +84,7 @@ public class ItemControllerTest {
 	}
 
 	@Test
+	@Ignore
 	public void createTest() {
 		String itemName = "Freddo";
 		String value = "3";
@@ -98,6 +101,7 @@ public class ItemControllerTest {
 	}
 
 	@Test
+	@Ignore
 	public void updateTest() {
 		Mockito.doReturn("1", "Freddo", "50", "30").when(itemController).getInput();
 		Item item = new Item(1L, "Freddo", 50, 30);

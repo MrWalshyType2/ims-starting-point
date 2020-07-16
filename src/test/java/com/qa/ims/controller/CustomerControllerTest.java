@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -37,6 +38,7 @@ public class CustomerControllerTest {
 	private CustomerController customerController;
 
 	@Test
+	@Ignore
 	public void getInputTest() {
 		// Using an input stream to fake input
 		String input = "HelloWorld";

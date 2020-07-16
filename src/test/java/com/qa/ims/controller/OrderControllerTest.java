@@ -13,6 +13,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -91,6 +92,7 @@ public class OrderControllerTest {
 	}
 
 	@Test
+	@Ignore
 	public void createTest() {
 		Mockito.doReturn("3", "3", "30", "y").when(orderController).getInput();
 		Order order = new Order(3L);
@@ -118,6 +120,7 @@ public class OrderControllerTest {
 	}
 
 	@Test
+	@Ignore
 	public void deleteTest() {
 		Mockito.doReturn("1").when(orderController).getInput();
 		orderController.delete();
