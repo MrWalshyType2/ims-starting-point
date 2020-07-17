@@ -171,7 +171,53 @@ mvn package
 
 ## Deployment
 
-Add additional notes about how to deploy this on a live system
+* To deploy this on a live database, you will need a cloud SQL database instance. GCP is the cloud system of choice here.
+
+Step 1:
+
+* Navigate to: [Google Cloud Platform](https://cloud.google.com/)
+
+Step 2:
+
+* Create an account/Login, then navigate to your GCP console.
+
+Step 3:
+
+* Click the hamburger menu icon in the upper left corner, and select the option 'SQL' under 'Storage'.
+
+Step 4:
+
+* Select '+' or '+ Create Instance' to start instance creation, then select 'Choose MySQL'.
+
+Step 5:
+
+* Enter the name 'ims' for the instance ID and Generate a secure password (note this down).
+
+* Set your region to your closest region.
+
+* Ensure the Database Version is 'MySQL 5.7'.
+
+Step 6:
+
+* Under 'Configuration options > Connectivity', select '+ Add Network' and enter the following CIDR notation to allow connections from any IP (whitelisting):
+
+```
+0.0.0.0/0
+```
+
+Step 7:
+
+* Click create to create your GCP MySQL instance.
+
+* Navigate to your overview if not already there, and copy your 'Public IP address'.
+
+Step 8:
+
+* In your downloaded application, modify the MySQL url in the 'utils > Utils.java':
+
+```
+<GCP_IMS_PUBLIC_IP>:3036
+```
 
 ## Built With
 
