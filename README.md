@@ -1,4 +1,4 @@
-Coverage: 75.5%
+Coverage: 74.5%
 # Inventory Management System (IMS)
 
 The Inventory Management System allows you to create, read, update and delete customers, items and orders; multiple items can be placed in a single order. If you have any improvements, please make a pull request with an explanation for your code.
