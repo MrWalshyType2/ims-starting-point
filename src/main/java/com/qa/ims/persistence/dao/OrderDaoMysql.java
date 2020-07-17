@@ -81,16 +81,43 @@ public class OrderDaoMysql implements Dao<Order> {
 		return null;
 	}
 
+	Item itemFromResultSet(ResultSet resultSet) throws SQLException {
+		Long id = resultSet.getLong("fk_item_id");
+//		
+
+		try (Connection connection = DriverManager.getConnection(jdbcConnectionUrl, username, password);
+				Statement statement = connection.createStatement();
+				ResultSet item = statement.executeQuery("SELECT * FROM items WHERE id=" + id);) {
+			item.next();
+			String itemName = item.getString("item_name");
+			int value = item.getInt("value");
+			int amount = item.getInt("amount");
+			return new Item(id, itemName, value, amount);
+		} catch (SQLException e) {
+			LOGGER.debug(e.getStackTrace());
+			LOGGER.error(e.getMessage());
+		}
+		return null;
+	}
+
 	@Override
 	public List<Order> readAll() {
 		try (Connection connection = DriverManager.getConnection(jdbcConnectionUrl, username, password);
 				Statement statement = connection.createStatement();
+				Statement statement2 = connection.createStatement();
 				ResultSet resultSet = statement.executeQuery("SELECT * FROM orders");) {
 			ArrayList<Order> orders = new ArrayList<>();
+			ResultSet items = null;
+			Item item = null;
 			while (resultSet.next()) {
 				Order oFromRs = orderFromResultSet(resultSet);
 				Long id = oFromRs.getId();
 				oFromRs.setTotalCost(calculateCost(id));
+				items = statement2.executeQuery("SELECT * FROM order_items WHERE fk_order_id = " + id);
+				while (items.next()) {
+					item = itemFromResultSet(items);
+					oFromRs.addItemToOrder(item);
+				}
 				orders.add(oFromRs);
 			}
 			return orders;

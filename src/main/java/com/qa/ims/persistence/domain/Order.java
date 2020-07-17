@@ -91,6 +91,10 @@ public class Order {
 		this.itemsInOrder = itemsInOrder;
 	}
 
+	public void addItemToOrder(Item item) {
+		this.itemsInOrder.add(item);
+	}
+
 	public boolean isUpdate() {
 		return update;
 	}
@@ -109,7 +113,11 @@ public class Order {
 
 	@Override
 	public String toString() {
-		return "Order [id=" + id + ", fkCustomerId=" + fkCustomerId + ", Cost=" + totalCost + "]";
+		String items = "";
+		for (Item i : itemsInOrder) {
+			items += "[ " + i + " ] ";
+		}
+		return "Order [id=" + id + ", fkCustomerId=" + fkCustomerId + ", Cost=" + totalCost + items + "]";
 	}
 
 	@Override
