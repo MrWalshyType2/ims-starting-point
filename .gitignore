@@ -3,5 +3,7 @@
 .project
 *.log
 
+/src/main/resources/app.properties
+
 /bin/
 /target/
