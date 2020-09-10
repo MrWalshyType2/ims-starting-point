@@ -161,6 +161,7 @@ public class CustomerDaoMysql implements Dao<Customer> {
 			PreparedStatement ps = connection.prepareStatement(query);
 			ps.setLong(1, id);
 			ps.executeUpdate();
+			LOGGER.info("Deleted customer with ID " + id);
 		} catch (Exception e) {
 			LOGGER.debug(e.getStackTrace());
 			LOGGER.error(e.getMessage());
