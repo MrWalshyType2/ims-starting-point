@@ -133,8 +133,13 @@ public class CustomerDaoMysql implements Dao<Customer> {
 	public Customer update(Customer customer) {
 		try (Connection connection = DriverManager.getConnection(jdbcConnectionUrl, username, password);
 				Statement statement = connection.createStatement();) {
-			statement.executeUpdate("update customers set first_name ='" + customer.getFirstName() + "', surname ='"
-					+ customer.getSurname() + "' where id =" + customer.getId());
+			String query = "UPDATE customers SET first_name=?, surname=? WHERE id=?";
+			PreparedStatement ps = connection.prepareStatement(query);
+			ps.setString(1, customer.getFirstName());
+			ps.setString(2, customer.getSurname());
+			ps.setLong(3, customer.getId());
+			ps.executeUpdate();
+			
 			return readById(customer.getId());
 		} catch (Exception e) {
 			LOGGER.debug(e.getStackTrace());
