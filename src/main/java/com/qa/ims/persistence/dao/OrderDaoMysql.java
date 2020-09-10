@@ -216,11 +216,20 @@ public class OrderDaoMysql implements Dao<Order> {
 
 	@Override
 	public void delete(long id) {
-		try (Connection connection = DriverManager.getConnection(jdbcConnectionUrl, username, password);
-				Statement statement = connection.createStatement();
-				Statement statement2 = connection.createStatement();) {
-			statement.executeUpdate("DELETE FROM orders WHERE id=" + id);
-			statement.executeUpdate("DELETE FROM order_items WHERE fk_order_id=" + id);
+		try (Connection connection = DriverManager.getConnection(jdbcConnectionUrl, username, password);) {
+			
+			String deleteFromOrdersQuery = "DELETE FROM orders WHERE id=?";
+			String deleteOrderItemsQuery = "DELETE FROM order_items WHERE fk_order_id=?";
+			
+			PreparedStatement delOrderPS = connection.prepareStatement(deleteFromOrdersQuery);
+			PreparedStatement delOrderItemsPS = connection.prepareStatement(deleteOrderItemsQuery);
+			
+			delOrderPS.setLong(1, id);
+			delOrderItemsPS.setLong(1, id);
+			
+			delOrderPS.executeUpdate();
+			delOrderItemsPS.executeUpdate();
+			LOGGER.info("Deleted order and associated items with ID " + id);
 		} catch (Exception e) {
 			LOGGER.debug(e.getStackTrace());
 			LOGGER.error(e.getMessage());
@@ -228,10 +237,16 @@ public class OrderDaoMysql implements Dao<Order> {
 	}
 
 	public void delete(Long fk_order_id, Long fk_item_id) {
-		try (Connection connection = DriverManager.getConnection(jdbcConnectionUrl, username, password);
-				Statement statement = connection.createStatement();) {
-			statement.executeUpdate(
-					"DELETE FROM order_items WHERE fk_order_id =" + fk_order_id + " AND fk_item_id =" + fk_item_id);
+		try (Connection connection = DriverManager.getConnection(jdbcConnectionUrl, username, password);) {
+			String query = "DELETE FROM order_items WHERE fk_order_id=? AND fk_item_id=?";
+			
+			PreparedStatement ps = connection.prepareStatement(query);
+			
+			ps.setLong(1, fk_order_id);
+			ps.setLong(2, fk_item_id);
+			
+			ps.executeUpdate();
+			LOGGER.info("Deleted item");
 		} catch (Exception e) {
 			LOGGER.debug(e.getStackTrace());
 			LOGGER.error(e.getMessage());
