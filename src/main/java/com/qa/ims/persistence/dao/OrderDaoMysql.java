@@ -2,6 +2,7 @@ package com.qa.ims.persistence.dao;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -86,12 +87,17 @@ public class OrderDaoMysql implements Dao<Order> {
 //		
 
 		try (Connection connection = DriverManager.getConnection(jdbcConnectionUrl, username, password);
-				Statement statement = connection.createStatement();
-				ResultSet item = statement.executeQuery("SELECT * FROM items WHERE id=" + id);) {
-			item.next();
-			String itemName = item.getString("item_name");
-			int value = item.getInt("value");
-			int amount = item.getInt("amount");
+				Statement statement = connection.createStatement();) {
+			String query = "SELECT * FROM items WHERE id=?";
+			PreparedStatement ps = connection.prepareStatement(query);
+			
+			ps.setLong(1, id);
+			ResultSet rs = ps.executeQuery();
+			
+			rs.next();
+			String itemName = rs.getString("item_name");
+			int value = rs.getInt("value");
+			int amount = rs.getInt("amount");
 			return new Item(id, itemName, value, amount);
 		} catch (SQLException e) {
 			LOGGER.debug(e.getStackTrace());
