@@ -1,7 +1,7 @@
 .settings/
 .classpath
 .project
-log-file.log
+*.log
 
 /bin/
 /target/
