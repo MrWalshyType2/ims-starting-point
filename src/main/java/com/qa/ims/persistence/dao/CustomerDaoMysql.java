@@ -2,6 +2,7 @@ package com.qa.ims.persistence.dao;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -83,8 +84,19 @@ public class CustomerDaoMysql implements Dao<Customer> {
 	public Customer create(Customer customer) {
 		try (Connection connection = DriverManager.getConnection(jdbcConnectionUrl, username, password);
 				Statement statement = connection.createStatement();) {
-			statement.executeUpdate("insert into customers(first_name, surname) " + "values('" + customer.getFirstName()
-					+ "','" + customer.getSurname() + "')");
+			
+			// Create SQL query
+			String query = "INSERT INTO customers(first_name, surname) VALUES(?, ?)";
+			
+			// Create a PreparedStatement with the built parametised SQL query
+			PreparedStatement ps = connection.prepareStatement(query);
+			
+			// Set the parameters (?)
+			ps.setString(1, customer.getFirstName());
+			ps.setString(2, customer.getSurname());
+			
+			ps.executeUpdate();
+			
 			return readLatest();
 		} catch (Exception e) {
 			LOGGER.debug(e.getStackTrace());
