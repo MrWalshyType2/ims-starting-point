@@ -136,7 +136,12 @@ public class ItemDaoMysql implements Dao<Item> {
 	public void delete(long id) {
 		try (Connection connection = DriverManager.getConnection(jdbcConnectionUrl, username, password);
 				Statement statement = connection.createStatement();) {
-			statement.executeUpdate("DELETE FROM items WHERE id =" + id);
+			String query = "DELETE FROM items WHERE id=?";
+			PreparedStatement ps = connection.prepareStatement(query);
+			
+			ps.setLong(1, id);
+			ps.executeUpdate();
+			LOGGER.info("Deleted item with ID " + id);
 		} catch (Exception e) {
 			LOGGER.debug(e.getStackTrace());
 			LOGGER.error(e.getMessage());
