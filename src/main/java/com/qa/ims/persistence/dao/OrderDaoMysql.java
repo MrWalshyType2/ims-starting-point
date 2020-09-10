@@ -110,16 +110,21 @@ public class OrderDaoMysql implements Dao<Order> {
 	public List<Order> readAll() {
 		try (Connection connection = DriverManager.getConnection(jdbcConnectionUrl, username, password);
 				Statement statement = connection.createStatement();
-				Statement statement2 = connection.createStatement();
 				ResultSet resultSet = statement.executeQuery("SELECT * FROM orders");) {
 			ArrayList<Order> orders = new ArrayList<>();
 			ResultSet items = null;
 			Item item = null;
+			
 			while (resultSet.next()) {
 				Order oFromRs = orderFromResultSet(resultSet);
 				Long id = oFromRs.getId();
 				oFromRs.setTotalCost(calculateCost(id));
-				items = statement2.executeQuery("SELECT * FROM order_items WHERE fk_order_id = " + id);
+				
+				String query = "SELECT * FROM order_items WHERE fk_order_id=?";
+				PreparedStatement ps = connection.prepareStatement(query);
+				ps.setLong(1, id);
+				items = ps.executeQuery();
+				
 				while (items.next()) {
 					item = itemFromResultSet(items);
 					oFromRs.addItemToOrder(item);
