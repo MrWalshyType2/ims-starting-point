@@ -157,7 +157,6 @@ public class CustomerDaoMysql implements Dao<Customer> {
 	public void delete(long id) {
 		try (Connection connection = DriverManager.getConnection(jdbcConnectionUrl, username, password);
 				Statement statement = connection.createStatement();) {
-//			statement.executeUpdate("delete from customers where id = " + id);
 			String query = "DELETE FROM customers WHERE id=?";
 			PreparedStatement ps = connection.prepareStatement(query);
 			ps.setLong(1, id);
