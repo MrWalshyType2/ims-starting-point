@@ -1,6 +1,7 @@
 package com.qa.ims;
 
 import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Connection;
@@ -103,6 +104,12 @@ public class Ims {
 	 * @param password
 	 */
 	public void init(String username, String password) {
+		try (FileInputStream inputStream = new FileInputStream("src/main/resources/" + Utils.getPropFileName())) {
+			Utils.initProperties(inputStream);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
 		init("jdbc:mysql://" + Utils.MYSQL_URL + "/?serverTimezone=UTC", username, password,
 				"src/main/resources/sql-schema.sql");
 	}
