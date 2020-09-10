@@ -153,14 +153,18 @@ public class OrderDaoMysql implements Dao<Order> {
 	}
 
 	public Order readOrder(Long id) {
-		try (Connection connection = DriverManager.getConnection(jdbcConnectionUrl, username, password);
-				Statement statement = connection.createStatement();
-				Statement statement2 = connection.createStatement();
-				ResultSet resultSet = statement.executeQuery("SELECT * FROM order_items WHERE fk_order_id = " + id);
-				ResultSet order = statement2.executeQuery("SELECT * FROM orders WHERE id=" + id);) {
-//			resultSet.next();
-//			order.next();
-			return orderFromResultSet(resultSet, order);
+		try (Connection connection = DriverManager.getConnection(jdbcConnectionUrl, username, password);) {
+
+			String queryOrderItems = "SELECT * FROM order_items WHERE fk_order_id=?";
+			String queryOrders = "SELECT * FROM orders WHERE id=?";
+			
+			PreparedStatement psOrderItems = connection.prepareStatement(queryOrderItems);
+			PreparedStatement psOrder = connection.prepareStatement(queryOrders);
+			
+			ResultSet orderItems = psOrderItems.executeQuery();
+			ResultSet order = psOrder.executeQuery();
+			
+			return orderFromResultSet(orderItems, order);
 		} catch (Exception e) {
 			LOGGER.debug(e.getStackTrace());
 			LOGGER.error(e.getMessage());
