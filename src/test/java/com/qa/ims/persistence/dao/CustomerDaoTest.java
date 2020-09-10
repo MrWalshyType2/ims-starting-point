@@ -98,7 +98,7 @@ public class CustomerDaoTest {
 		Customer savedCustomer = customerDao.create(new Customer("Fred", "Perry"));
 		Long id = savedCustomer.getId();
 		Customer customer = new Customer(id, "Fred", "Perry");
-		assertEquals(customer, customerDao.readCustomer(id));
+		assertEquals(customer, customerDao.readById(id));
 	}
 
 	@Test
@@ -106,7 +106,7 @@ public class CustomerDaoTest {
 		CustomerDaoMysql customerDao = new CustomerDaoMysql(jdbcUrl, username, password);
 		Customer savedCustomer = customerDao.create(new Customer("Fred", "Perry"));
 		Long id = 567L;
-		assertNull(customerDao.readCustomer(id));
+		assertNull(customerDao.readById(id));
 	}
 
 	@Test
