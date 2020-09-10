@@ -161,6 +161,9 @@ public class OrderDaoMysql implements Dao<Order> {
 			PreparedStatement psOrderItems = connection.prepareStatement(queryOrderItems);
 			PreparedStatement psOrder = connection.prepareStatement(queryOrders);
 			
+			psOrderItems.setLong(1, id);
+			psOrder.setLong(1, id);
+			
 			ResultSet orderItems = psOrderItems.executeQuery();
 			ResultSet order = psOrder.executeQuery();
 			
@@ -174,9 +177,12 @@ public class OrderDaoMysql implements Dao<Order> {
 
 	@Override
 	public Order create(Order order) {
-		try (Connection connection = DriverManager.getConnection(jdbcConnectionUrl, username, password);
-				Statement statement = connection.createStatement();) {
-			statement.executeUpdate("INSERT INTO orders(fk_customer_id)" + " VALUES(" + order.getFkCustomerId() + ")");
+		try (Connection connection = DriverManager.getConnection(jdbcConnectionUrl, username, password);) {
+			String query = "INSERT INTO orders(fk_customer_id) VALUES(?)";
+			PreparedStatement ps = connection.prepareStatement(query);
+			ps.setLong(1, order.getFkCustomerId());
+			ps.executeUpdate();
+			
 			return readLatest();
 		} catch (Exception e) {
 			LOGGER.debug(e.getStackTrace());
@@ -189,6 +195,8 @@ public class OrderDaoMysql implements Dao<Order> {
 	public Order update(Order order) {
 		Item item = order.getItem();
 		int quantity = order.getItemQuantity();
+		
+		LOGGER.info(order.toString());
 
 		if (order.isUpdateMode() == false || order.isUpdateMode() == true && order.isUpdate() == true) {
 			try (Connection connection = DriverManager.getConnection(jdbcConnectionUrl, username, password);
