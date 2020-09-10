@@ -95,8 +95,14 @@ public class ItemDaoMysql implements Dao<Item> {
 	public Item create(Item item) {
 		try (Connection connection = DriverManager.getConnection(jdbcConnectionUrl, username, password);
 				Statement statement = connection.createStatement();) {
-			statement.executeUpdate("INSERT INTO items(item_name, value, amount)" + " VALUES('" + item.getItemName()
-					+ "', " + item.getValue() + ", " + item.getAmount() + ")");
+			String query = "INSERT INTO items(item_name, value, amount) VALUES(?, ?, ?)";
+			PreparedStatement ps = connection.prepareStatement(query);
+			
+			ps.setString(1, item.getItemName());
+			ps.setInt(2, item.getValue());
+			ps.setInt(3, item.getAmount());
+			ps.executeUpdate();
+			
 			return readLatest();
 		} catch (Exception e) {
 			LOGGER.debug(e.getStackTrace());
