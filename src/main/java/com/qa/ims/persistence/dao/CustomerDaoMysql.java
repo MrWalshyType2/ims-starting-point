@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import org.apache.log4j.Logger;
 
 import com.qa.ims.persistence.domain.Customer;
+import com.qa.ims.utils.DBConnectionPool;
 import com.qa.ims.utils.Utils;
 
 public class CustomerDaoMysql implements Dao<Customer> {
@@ -47,7 +48,7 @@ public class CustomerDaoMysql implements Dao<Customer> {
 	 */
 	@Override
 	public ArrayList<Customer> readAll() {
-		try (Connection connection = DriverManager.getConnection(jdbcConnectionUrl, username, password);
+		try (Connection connection = DBConnectionPool.getConnection();
 				Statement statement = connection.createStatement();
 				ResultSet resultSet = statement.executeQuery("select * from customers");) {
 			ArrayList<Customer> customers = new ArrayList<>();
