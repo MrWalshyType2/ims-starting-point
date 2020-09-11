@@ -55,16 +55,12 @@ public class OrderDaoTest {
 	@Test
 	public void constructorTest() {
 		OrderDaoMysql noParam = new OrderDaoMysql();
-		OrderDaoMysql twoParams = new OrderDaoMysql(username, password);
-		OrderDaoMysql threeParams = new OrderDaoMysql(jdbcUrl, username, password);
 		assertNotNull(noParam);
-		assertNotNull(twoParams);
-		assertNotNull(threeParams);
 	}
 
 	@Test
 	public void createTest() {
-		OrderDaoMysql orderDao = new OrderDaoMysql(jdbcUrl, username, password);
+		OrderDaoMysql orderDao = new OrderDaoMysql();
 		CustomerDaoMysql customerDao = new CustomerDaoMysql();
 		Customer customer = new Customer("Bob", "Perry");
 		customer = customerDao.create(customer);
@@ -77,7 +73,7 @@ public class OrderDaoTest {
 
 	@Test
 	public void createFailTest() {
-		OrderDaoMysql orderDao = new OrderDaoMysql(jdbcUrl, username, password);
+		OrderDaoMysql orderDao = new OrderDaoMysql();
 		CustomerDaoMysql customerDao = new CustomerDaoMysql();
 		Customer customer = new Customer("Bob", "Perry");
 		customer = customerDao.create(customer);
@@ -88,7 +84,7 @@ public class OrderDaoTest {
 
 	@Test
 	public void readAllTest() {
-		OrderDaoMysql orderDao = new OrderDaoMysql(jdbcUrl, username, password);
+		OrderDaoMysql orderDao = new OrderDaoMysql();
 		CustomerDaoMysql customerDao = new CustomerDaoMysql();
 		ArrayList<Order> orders = new ArrayList<>();
 		ArrayList<Order> savedOrders = new ArrayList<>();
@@ -107,7 +103,7 @@ public class OrderDaoTest {
 
 	@Test
 	public void readOrderTest() {
-		OrderDaoMysql orderDao = new OrderDaoMysql(jdbcUrl, username, password);
+		OrderDaoMysql orderDao = new OrderDaoMysql();
 		CustomerDaoMysql customerDao = new CustomerDaoMysql();
 		ItemDaoMysql itemDao = new ItemDaoMysql();
 		Customer c1 = new Customer("Bob", "Perry");
@@ -127,7 +123,7 @@ public class OrderDaoTest {
 
 	@Test
 	public void readOrderFailTest() {
-		OrderDaoMysql orderDao = new OrderDaoMysql(jdbcUrl, username, password);
+		OrderDaoMysql orderDao = new OrderDaoMysql();
 		CustomerDaoMysql customerDao = new CustomerDaoMysql();
 		ItemDaoMysql itemDao = new ItemDaoMysql();
 		Customer c1 = new Customer("Bob", "Perry");
@@ -147,7 +143,7 @@ public class OrderDaoTest {
 
 	@Test
 	public void updateTest() {
-		OrderDaoMysql orderDao = new OrderDaoMysql(jdbcUrl, username, password);
+		OrderDaoMysql orderDao = new OrderDaoMysql();
 		CustomerDaoMysql customerDao = new CustomerDaoMysql();
 		ItemDaoMysql itemDao = new ItemDaoMysql();
 		Customer c1 = new Customer("Bob", "Perry");
@@ -166,7 +162,7 @@ public class OrderDaoTest {
 
 	@Test
 	public void updateFailTest() {
-		OrderDaoMysql orderDao = new OrderDaoMysql(jdbcUrl, username, password);
+		OrderDaoMysql orderDao = new OrderDaoMysql();
 		CustomerDaoMysql customerDao = new CustomerDaoMysql();
 		ItemDaoMysql itemDao = new ItemDaoMysql();
 		Customer c1 = new Customer("Bob", "Perry");
@@ -185,7 +181,7 @@ public class OrderDaoTest {
 
 	@Test
 	public void updateDeleteTest() {
-		OrderDaoMysql orderDao = new OrderDaoMysql(jdbcUrl, username, password);
+		OrderDaoMysql orderDao = new OrderDaoMysql();
 		CustomerDaoMysql customerDao = new CustomerDaoMysql();
 		ItemDaoMysql itemDao = new ItemDaoMysql();
 		Customer c1 = new Customer("Bob", "Perry");
@@ -205,7 +201,7 @@ public class OrderDaoTest {
 
 	@Test
 	public void deleteTest() {
-		OrderDaoMysql orderDao = new OrderDaoMysql(jdbcUrl, username, password);
+		OrderDaoMysql orderDao = new OrderDaoMysql();
 		CustomerDaoMysql customerDao = new CustomerDaoMysql();
 		ItemDaoMysql itemDao = new ItemDaoMysql();
 		Customer c1 = new Customer("Bob", "Perry");
@@ -219,7 +215,7 @@ public class OrderDaoTest {
 
 	@Test
 	public void deleteFailTest() {
-		OrderDaoMysql orderDao = new OrderDaoMysql(jdbcUrl, username, password);
+		OrderDaoMysql orderDao = new OrderDaoMysql();
 		CustomerDaoMysql customerDao = new CustomerDaoMysql();
 		ItemDaoMysql itemDao = new ItemDaoMysql();
 		Customer c1 = new Customer("Bob", "Perry");
@@ -232,7 +228,7 @@ public class OrderDaoTest {
 
 	@Test
 	public void deleteItemTest() {
-		OrderDaoMysql orderDao = new OrderDaoMysql(jdbcUrl, username, password);
+		OrderDaoMysql orderDao = new OrderDaoMysql();
 		CustomerDaoMysql customerDao = new CustomerDaoMysql();
 		ItemDaoMysql itemDao = new ItemDaoMysql();
 		Customer c1 = new Customer("Bob", "Perry");
