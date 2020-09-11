@@ -84,8 +84,7 @@ public class OrderDaoMysql implements Dao<Order> {
 
 	Item itemFromResultSet(ResultSet resultSet) throws SQLException {
 		Long id = resultSet.getLong("fk_item_id");
-//		
-
+		
 		try (Connection connection = DriverManager.getConnection(jdbcConnectionUrl, username, password);
 				Statement statement = connection.createStatement();) {
 			String query = "SELECT * FROM items WHERE id=?";
@@ -254,14 +253,17 @@ public class OrderDaoMysql implements Dao<Order> {
 	}
 
 	public int calculateCost(Long id) {
-		try (Connection connection = DriverManager.getConnection(jdbcConnectionUrl, username, password);
-				Statement statement = connection.createStatement();) {
-			ResultSet cost = statement.executeQuery("SELECT SUM(order_items.quantity*items.value) AS Cost"
-					+ " FROM customers" + " JOIN orders ON customers.id=orders.fk_customer_id"
-					+ " JOIN order_items ON orders.id=order_items.fk_order_id"
-					+ " JOIN items ON order_items.fk_item_id=items.id" + " WHERE orders.id=" + id);
+		try (Connection connection = DriverManager.getConnection(jdbcConnectionUrl, username, password);) {
+			String query = "SELECT SUM(order_items.quantity*items.value) AS Cost "
+					+ "FROM customers JOIN orders ON customers.id=orders.fk_customer_id "
+					+ "JOIN order_items ON orders.id=order_items.fk_order_id "
+					+ "JOIN items ON order_items.fk_item_id=items.id WHERE orders.id=?";
+			
+			PreparedStatement ps = connection.prepareStatement(query);
+			ps.setLong(1, id);
+			ResultSet cost = ps.executeQuery();
+			
 			String label = cost.getMetaData().getColumnLabel(1);
-//			ResultSetMetaData rsmd = cost.getMetaData();
 			cost.next();
 			int oCost = cost.getInt(label);
 			cost.close();
