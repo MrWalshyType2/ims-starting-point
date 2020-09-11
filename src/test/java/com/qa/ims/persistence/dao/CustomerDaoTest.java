@@ -27,7 +27,7 @@ public class CustomerDaoTest {
 	@BeforeClass
 	public static void init() {
 		Ims ims = new Ims();
-		ims.init(jdbcUrl, username, password, "src/test/resources/sql-schema.sql");
+		ims.init("src/test/resources/sql-schema.sql");
 		// customerDao = new
 		// CustomerDaoMysql("jdbc:mysql://127.0.0.1:3306/ims_test2?serverTimezone=UTC",
 		// "root", "root");

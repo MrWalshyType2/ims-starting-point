@@ -14,23 +14,11 @@ public class ImsTest {
 	private static String schemaBroke = "sr/test/resources/sql-schema.sql";
 
 	public static final Logger LOGGER = Logger.getLogger(ImsTest.class);
-
+	
 	@Test
-	public void initTest1() {
+	public void initTest() {
 		Ims ims = new Ims();
-		ims.init(username, password);
-	}
-
-	@Test
-	public void initTest2() {
-		Ims ims = new Ims();
-		ims.init(jdbcUrl, username, password, schema);
-	}
-
-	@Test
-	public void initTest3() {
-		Ims ims = new Ims();
-		ims.init(username, password);
+		ims.init(schema);
 	}
 
 	@Test

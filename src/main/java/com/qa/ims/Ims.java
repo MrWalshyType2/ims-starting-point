@@ -22,6 +22,7 @@ import com.qa.ims.persistence.domain.Domain;
 import com.qa.ims.services.CustomerServices;
 import com.qa.ims.services.ItemServices;
 import com.qa.ims.services.OrderServices;
+import com.qa.ims.utils.DBConnectionPool;
 import com.qa.ims.utils.Utils;
 
 public class Ims {
@@ -29,12 +30,7 @@ public class Ims {
 	public static final Logger LOGGER = Logger.getLogger(Ims.class);
 
 	public void imsSystem() {
-		LOGGER.info("What is your username");
-		String username = Utils.getInput();
-		LOGGER.info("What is your password");
-		String password = Utils.getInput();
-
-		init(username, password);
+		init("src/main/resources/sql-schema.sql");
 
 		while (true) {
 			LOGGER.info("Which entity would you like to use?");
@@ -95,18 +91,6 @@ public class Ims {
 		}
 	}
 
-	/**
-	 * To initialise the database schema. DatabaseConnectionUrl will default to
-	 * localhost.
-	 *
-	 * @param username
-	 * @param password
-	 */
-	public void init(String username, String password) {
-		init("jdbc:mysql://" + Utils.MYSQL_URL + "/?serverTimezone=UTC", username, password,
-				"src/main/resources/sql-schema.sql");
-	}
-
 	public String readFile(String fileLocation) {
 		StringBuilder stringBuilder = new StringBuilder();
 		try (BufferedReader br = new BufferedReader(new FileReader(fileLocation));) {
@@ -127,8 +111,9 @@ public class Ims {
 	/**
 	 * To initialise the database with the schema needed to run the application
 	 */
-	public void init(String jdbcConnectionUrl, String username, String password, String fileLocation) {
-		try (Connection connection = DriverManager.getConnection(jdbcConnectionUrl, username, password);
+	public void init(String fileLocation) {
+		LOGGER.info("Initialising schema");
+		try (Connection connection = DBConnectionPool.getConnection();
 				BufferedReader br = new BufferedReader(new FileReader(fileLocation));) {
 			String string;
 			while ((string = br.readLine()) != null) {
