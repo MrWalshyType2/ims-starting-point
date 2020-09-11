@@ -55,7 +55,7 @@ public class Ims {
 			switch (domain) {
 			case CUSTOMER:
 				CustomerController customerController = new CustomerController(
-						new CustomerServices(new CustomerDaoMysql(username, password)));
+						new CustomerServices(new CustomerDaoMysql()));
 				doAction(customerController, action);
 				break;
 			case ITEM:

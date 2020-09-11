@@ -22,6 +22,8 @@ public class DBConnectionPool {
 	}
 	
 	public static Connection getConnection() throws SQLException {
+		// When .close() is called on the connection obj, it is returned to the pool instead
+		// of the connection being closed
 		return ds.getConnection();
 	}
 }
