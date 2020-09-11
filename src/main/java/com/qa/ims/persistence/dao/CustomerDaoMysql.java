@@ -105,12 +105,16 @@ public class CustomerDaoMysql implements Dao<Customer> {
 		return null;
 	}
 
-	public Customer readCustomer(Long id) {
+	public Customer readById(Long id) {
 		try (Connection connection = DriverManager.getConnection(jdbcConnectionUrl, username, password);
-				Statement statement = connection.createStatement();
-				ResultSet resultSet = statement.executeQuery("select * from customers where id=" + id);) {
-			resultSet.next();
-			return customerFromResultSet(resultSet);
+				Statement statement = connection.createStatement();) {
+			String query = "SELECT * FROM customers WHERE id=?";
+			PreparedStatement ps = connection.prepareStatement(query);
+			ps.setLong(1, id);
+			
+			ResultSet rs = ps.executeQuery();
+			rs.next();
+			return customerFromResultSet(rs);
 		} catch (Exception e) {
 			LOGGER.debug(e.getStackTrace());
 			LOGGER.error(e.getMessage());
@@ -129,9 +133,14 @@ public class CustomerDaoMysql implements Dao<Customer> {
 	public Customer update(Customer customer) {
 		try (Connection connection = DriverManager.getConnection(jdbcConnectionUrl, username, password);
 				Statement statement = connection.createStatement();) {
-			statement.executeUpdate("update customers set first_name ='" + customer.getFirstName() + "', surname ='"
-					+ customer.getSurname() + "' where id =" + customer.getId());
-			return readCustomer(customer.getId());
+			String query = "UPDATE customers SET first_name=?, surname=? WHERE id=?";
+			PreparedStatement ps = connection.prepareStatement(query);
+			ps.setString(1, customer.getFirstName());
+			ps.setString(2, customer.getSurname());
+			ps.setLong(3, customer.getId());
+			ps.executeUpdate();
+			
+			return readById(customer.getId());
 		} catch (Exception e) {
 			LOGGER.debug(e.getStackTrace());
 			LOGGER.error(e.getMessage());
@@ -148,7 +157,11 @@ public class CustomerDaoMysql implements Dao<Customer> {
 	public void delete(long id) {
 		try (Connection connection = DriverManager.getConnection(jdbcConnectionUrl, username, password);
 				Statement statement = connection.createStatement();) {
-			statement.executeUpdate("delete from customers where id = " + id);
+			String query = "DELETE FROM customers WHERE id=?";
+			PreparedStatement ps = connection.prepareStatement(query);
+			ps.setLong(1, id);
+			ps.executeUpdate();
+			LOGGER.info("Deleted customer with ID " + id);
 		} catch (Exception e) {
 			LOGGER.debug(e.getStackTrace());
 			LOGGER.error(e.getMessage());
