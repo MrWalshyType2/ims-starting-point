@@ -46,12 +46,12 @@ public class CustomerDaoTest {
 
 	@Test
 	public void constructorTest() {
-		CustomerDaoMysql cdm = new CustomerDaoMysql(username, password);
+		CustomerDaoMysql cdm = new CustomerDaoMysql();
 	}
 
 	@Test
 	public void createTest() {
-		CustomerDaoMysql customerDao = new CustomerDaoMysql(jdbcUrl, username, password);
+		CustomerDaoMysql customerDao = new CustomerDaoMysql();
 		String firstName = "Fred";
 		String surname = "Perry";
 		Customer customer = new Customer(firstName, surname);
@@ -63,7 +63,7 @@ public class CustomerDaoTest {
 
 	@Test
 	public void createFailTest() {
-		CustomerDaoMysql customerDao = new CustomerDaoMysql(jdbcUrl, username, password);
+		CustomerDaoMysql customerDao = new CustomerDaoMysql();
 		Customer customer = null;
 		customer = customerDao.create(customer);
 		assertNull(customer);
@@ -71,7 +71,7 @@ public class CustomerDaoTest {
 
 	@Test
 	public void readAllTest() {
-		CustomerDaoMysql customerDao = new CustomerDaoMysql(jdbcUrl, username, password);
+		CustomerDaoMysql customerDao = new CustomerDaoMysql();
 		ArrayList<Customer> customers = new ArrayList<>();
 		customers.add(new Customer("Bob", "Perry"));
 		customerDao.create(new Customer("Bob", "Perry"));
@@ -94,7 +94,7 @@ public class CustomerDaoTest {
 
 	@Test
 	public void readCustomerTest() {
-		CustomerDaoMysql customerDao = new CustomerDaoMysql(jdbcUrl, username, password);
+		CustomerDaoMysql customerDao = new CustomerDaoMysql();
 		Customer savedCustomer = customerDao.create(new Customer("Fred", "Perry"));
 		Long id = savedCustomer.getId();
 		Customer customer = new Customer(id, "Fred", "Perry");
@@ -103,7 +103,7 @@ public class CustomerDaoTest {
 
 	@Test
 	public void readCustomerFailTest() {
-		CustomerDaoMysql customerDao = new CustomerDaoMysql(jdbcUrl, username, password);
+		CustomerDaoMysql customerDao = new CustomerDaoMysql();
 		Customer savedCustomer = customerDao.create(new Customer("Fred", "Perry"));
 		Long id = 567L;
 		assertNull(customerDao.readById(id));
@@ -111,7 +111,7 @@ public class CustomerDaoTest {
 
 	@Test
 	public void updateTest() {
-		CustomerDaoMysql customerDao = new CustomerDaoMysql(jdbcUrl, username, password);
+		CustomerDaoMysql customerDao = new CustomerDaoMysql();
 		Customer savedCustomer = customerDao.create(new Customer("Fred", "Perry"));
 		savedCustomer.setFirstName("Bob");
 		Customer updated = customerDao.update(savedCustomer);
@@ -120,7 +120,7 @@ public class CustomerDaoTest {
 
 	@Test
 	public void updateFailTest() {
-		CustomerDaoMysql customerDao = new CustomerDaoMysql(jdbcUrl, username, password);
+		CustomerDaoMysql customerDao = new CustomerDaoMysql();
 		Customer savedCustomer = customerDao.create(new Customer("Fred", "Perry"));
 		savedCustomer = null;
 		Customer updated = customerDao.update(savedCustomer);
@@ -129,7 +129,7 @@ public class CustomerDaoTest {
 
 	@Test
 	public void deleteTest() {
-		CustomerDaoMysql customerDao = new CustomerDaoMysql(jdbcUrl, username, password);
+		CustomerDaoMysql customerDao = new CustomerDaoMysql();
 		Customer savedCustomer = customerDao.create(new Customer("Fred", "Perry"));
 		customerDao.delete(savedCustomer.getId());
 		ArrayList<Customer> empty = new ArrayList<>();
@@ -138,7 +138,7 @@ public class CustomerDaoTest {
 
 	@Test
 	public void deleteFailTest() {
-		CustomerDaoMysql customerDao = new CustomerDaoMysql(jdbcUrl, username, password);
+		CustomerDaoMysql customerDao = new CustomerDaoMysql();
 		Customer savedCustomer = customerDao.create(new Customer("Fred", "Perry"));
 		customerDao.delete(57L);
 		ArrayList<Customer> empty = new ArrayList<>();

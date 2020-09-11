@@ -46,13 +46,13 @@ public class ItemDaoTest {
 
 	@Test
 	public void constructorTest() {
-		ItemDaoMysql idao = new ItemDaoMysql(username, password);
+		ItemDaoMysql idao = new ItemDaoMysql();
 		ItemDaoMysql idao2 = new ItemDaoMysql();
 	}
 
 	@Test
 	public void createTest() {
-		ItemDaoMysql itemDao = new ItemDaoMysql(jdbcUrl, username, password);
+		ItemDaoMysql itemDao = new ItemDaoMysql();
 		String itemName = "Freddo";
 		int value = 5;
 		int quantity = 100;
@@ -65,7 +65,7 @@ public class ItemDaoTest {
 
 	@Test
 	public void createFailTest() {
-		ItemDaoMysql itemDao = new ItemDaoMysql(jdbcUrl, username, password);
+		ItemDaoMysql itemDao = new ItemDaoMysql();
 		String itemName = "Freddo";
 		int value = 5;
 		int quantity = 100;
@@ -77,7 +77,7 @@ public class ItemDaoTest {
 
 	@Test
 	public void readAllTest() {
-		ItemDaoMysql itemDao = new ItemDaoMysql(jdbcUrl, username, password);
+		ItemDaoMysql itemDao = new ItemDaoMysql();
 		ArrayList<Item> items = new ArrayList<>();
 		items.add(new Item("Freddo", 5, 500));
 		itemDao.create(new Item("Freddo", 5, 500));
@@ -88,7 +88,7 @@ public class ItemDaoTest {
 
 	@Test
 	public void readItemTest() {
-		ItemDaoMysql itemDao = new ItemDaoMysql(jdbcUrl, username, password);
+		ItemDaoMysql itemDao = new ItemDaoMysql();
 		Item savedItem = itemDao.create(new Item("Freddo", 5, 523));
 		Long id = savedItem.getId();
 		Item item = new Item(id, "Freddo", 5, 523);
@@ -97,7 +97,7 @@ public class ItemDaoTest {
 
 	@Test
 	public void readItemFailTest() {
-		ItemDaoMysql itemDao = new ItemDaoMysql(jdbcUrl, username, password);
+		ItemDaoMysql itemDao = new ItemDaoMysql();
 		Item savedItem = itemDao.create(new Item("Freddo", 5, 523));
 		Long id = 567L;
 		assertNull(itemDao.readItem(id));
@@ -105,7 +105,7 @@ public class ItemDaoTest {
 
 	@Test
 	public void updateTest() {
-		ItemDaoMysql itemDao = new ItemDaoMysql(jdbcUrl, username, password);
+		ItemDaoMysql itemDao = new ItemDaoMysql();
 		Item savedItem = itemDao.create(new Item("Freddo", 55, 3));
 		savedItem.setItemName("Bob");
 		Item updated = itemDao.update(savedItem);
@@ -114,7 +114,7 @@ public class ItemDaoTest {
 
 	@Test
 	public void updateFailTest() {
-		ItemDaoMysql itemDao = new ItemDaoMysql(jdbcUrl, username, password);
+		ItemDaoMysql itemDao = new ItemDaoMysql();
 		Item savedItem = itemDao.create(new Item("Freddo", 55, 3));
 		savedItem = null;
 		Item updated = itemDao.update(savedItem);
@@ -123,7 +123,7 @@ public class ItemDaoTest {
 
 	@Test
 	public void deleteTest() {
-		ItemDaoMysql itemDao = new ItemDaoMysql(jdbcUrl, username, password);
+		ItemDaoMysql itemDao = new ItemDaoMysql();
 		Item savedItem = itemDao.create(new Item("Freddo", 55, 34));
 		itemDao.delete(savedItem.getId());
 		ArrayList<Item> empty = new ArrayList<>();
@@ -132,7 +132,7 @@ public class ItemDaoTest {
 
 	@Test
 	public void deleteFailTest() {
-		ItemDaoMysql itemDao = new ItemDaoMysql(jdbcUrl, username, password);
+		ItemDaoMysql itemDao = new ItemDaoMysql();
 		Item savedItem = itemDao.create(new Item("Freddo", 55, 34));
 		itemDao.delete(-5);
 		ArrayList<Item> empty = new ArrayList<>();

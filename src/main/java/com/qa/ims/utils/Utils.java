@@ -1,5 +1,7 @@
 package com.qa.ims.utils;
 
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 import java.util.Scanner;
@@ -16,6 +18,18 @@ public class Utils {
 	
 	}
 	
+	// Static block initialisation
+	static {
+		try (FileInputStream inputStream = new FileInputStream("src/main/resources/" + FILENAME)) {
+			properties = new Properties();
+			properties.load(inputStream);
+			
+			MYSQL_URL = properties.getProperty("url");
+		} catch (IOException ioe) {
+			ioe.printStackTrace();
+		}
+	}
+	
 	public static void initProperties(InputStream stream) {
 		try {
 			properties = new Properties();
@@ -27,7 +41,7 @@ public class Utils {
 		}
 	}
 	
-	public String getProperty(String key) {
+	public static String getProperty(String key) {
 		return properties.getProperty(key);
 	}
 

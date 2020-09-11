@@ -1,7 +1,6 @@
 package com.qa.ims;
 
 import java.io.BufferedReader;
-import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Connection;
@@ -55,18 +54,18 @@ public class Ims {
 			switch (domain) {
 			case CUSTOMER:
 				CustomerController customerController = new CustomerController(
-						new CustomerServices(new CustomerDaoMysql(username, password)));
+						new CustomerServices(new CustomerDaoMysql()));
 				doAction(customerController, action);
 				break;
 			case ITEM:
 				ItemController itemController = new ItemController(
-						new ItemServices(new ItemDaoMysql(username, password)));
+						new ItemServices(new ItemDaoMysql()));
 				doAction(itemController, action);
 				break;
 			case ORDER:
 				OrderController orderController = new OrderController(
-						new OrderServices(new OrderDaoMysql(username, password)),
-						new ItemServices(new ItemDaoMysql(username, password)));
+						new OrderServices(new OrderDaoMysql()),
+						new ItemServices(new ItemDaoMysql()));
 				doAction(orderController, action);
 				break;
 			default:
@@ -104,12 +103,6 @@ public class Ims {
 	 * @param password
 	 */
 	public void init(String username, String password) {
-		try (FileInputStream inputStream = new FileInputStream("src/main/resources/" + Utils.getPropFileName())) {
-			Utils.initProperties(inputStream);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
 		init("jdbc:mysql://" + Utils.MYSQL_URL + "/?serverTimezone=UTC", username, password,
 				"src/main/resources/sql-schema.sql");
 	}

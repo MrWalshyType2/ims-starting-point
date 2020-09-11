@@ -1,7 +1,6 @@
 package com.qa.ims.persistence.dao;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,26 +10,14 @@ import java.util.ArrayList;
 import org.apache.log4j.Logger;
 
 import com.qa.ims.persistence.domain.Customer;
-import com.qa.ims.utils.Utils;
+import com.qa.ims.utils.DBConnectionPool;
 
 public class CustomerDaoMysql implements Dao<Customer> {
 
 	public static final Logger LOGGER = Logger.getLogger(CustomerDaoMysql.class);
 
-	private String jdbcConnectionUrl;
-	private String username;
-	private String password;
+	public CustomerDaoMysql() {
 
-	public CustomerDaoMysql(String username, String password) {
-		this.jdbcConnectionUrl = "jdbc:mysql://" + Utils.MYSQL_URL + "/ims?serverTimezone=UTC";
-		this.username = username;
-		this.password = password;
-	}
-
-	public CustomerDaoMysql(String jdbcConnectionUrl, String username, String password) {
-		this.jdbcConnectionUrl = jdbcConnectionUrl;
-		this.username = username;
-		this.password = password;
 	}
 
 	Customer customerFromResultSet(ResultSet resultSet) throws SQLException {
@@ -47,7 +34,7 @@ public class CustomerDaoMysql implements Dao<Customer> {
 	 */
 	@Override
 	public ArrayList<Customer> readAll() {
-		try (Connection connection = DriverManager.getConnection(jdbcConnectionUrl, username, password);
+		try (Connection connection = DBConnectionPool.getConnection();
 				Statement statement = connection.createStatement();
 				ResultSet resultSet = statement.executeQuery("select * from customers");) {
 			ArrayList<Customer> customers = new ArrayList<>();
@@ -63,7 +50,7 @@ public class CustomerDaoMysql implements Dao<Customer> {
 	}
 
 	public Customer readLatest() {
-		try (Connection connection = DriverManager.getConnection(jdbcConnectionUrl, username, password);
+		try (Connection connection = DBConnectionPool.getConnection();
 				Statement statement = connection.createStatement();
 				ResultSet resultSet = statement.executeQuery("SELECT * FROM customers ORDER BY id DESC LIMIT 1");) {
 			resultSet.next();
@@ -82,8 +69,7 @@ public class CustomerDaoMysql implements Dao<Customer> {
 	 */
 	@Override
 	public Customer create(Customer customer) {
-		try (Connection connection = DriverManager.getConnection(jdbcConnectionUrl, username, password);
-				Statement statement = connection.createStatement();) {
+		try (Connection connection = DBConnectionPool.getConnection();) {
 			
 			// Create SQL query
 			String query = "INSERT INTO customers(first_name, surname) VALUES(?, ?)";
@@ -106,8 +92,7 @@ public class CustomerDaoMysql implements Dao<Customer> {
 	}
 
 	public Customer readById(Long id) {
-		try (Connection connection = DriverManager.getConnection(jdbcConnectionUrl, username, password);
-				Statement statement = connection.createStatement();) {
+		try (Connection connection = DBConnectionPool.getConnection();) {
 			String query = "SELECT * FROM customers WHERE id=?";
 			PreparedStatement ps = connection.prepareStatement(query);
 			ps.setLong(1, id);
@@ -131,8 +116,7 @@ public class CustomerDaoMysql implements Dao<Customer> {
 	 */
 	@Override
 	public Customer update(Customer customer) {
-		try (Connection connection = DriverManager.getConnection(jdbcConnectionUrl, username, password);
-				Statement statement = connection.createStatement();) {
+		try (Connection connection = DBConnectionPool.getConnection();) {
 			String query = "UPDATE customers SET first_name=?, surname=? WHERE id=?";
 			PreparedStatement ps = connection.prepareStatement(query);
 			ps.setString(1, customer.getFirstName());
@@ -155,8 +139,7 @@ public class CustomerDaoMysql implements Dao<Customer> {
 	 */
 	@Override
 	public void delete(long id) {
-		try (Connection connection = DriverManager.getConnection(jdbcConnectionUrl, username, password);
-				Statement statement = connection.createStatement();) {
+		try (Connection connection = DBConnectionPool.getConnection();) {
 			String query = "DELETE FROM customers WHERE id=?";
 			PreparedStatement ps = connection.prepareStatement(query);
 			ps.setLong(1, id);

@@ -1,7 +1,6 @@
 package com.qa.ims.persistence.dao;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -13,30 +12,14 @@ import org.apache.log4j.Logger;
 
 import com.qa.ims.persistence.domain.Item;
 import com.qa.ims.persistence.domain.Order;
-import com.qa.ims.utils.Utils;
+import com.qa.ims.utils.DBConnectionPool;
 
 public class OrderDaoMysql implements Dao<Order> {
 
 	public static final Logger LOGGER = Logger.getLogger(OrderDaoMysql.class);
 
-	private String jdbcConnectionUrl;
-	private String username;
-	private String password;
-
 	public OrderDaoMysql() {
 
-	}
-
-	public OrderDaoMysql(String username, String password) {
-		this.jdbcConnectionUrl = "jdbc:mysql://" + Utils.MYSQL_URL + "/ims?serverTimezone=UTC";
-		this.username = username;
-		this.password = password;
-	}
-
-	public OrderDaoMysql(String jdbcConnectionUrl, String username, String password) {
-		this.jdbcConnectionUrl = jdbcConnectionUrl;
-		this.username = username;
-		this.password = password;
 	}
 
 	Order orderFromResultSet(ResultSet resultSet) throws SQLException {
@@ -47,7 +30,7 @@ public class OrderDaoMysql implements Dao<Order> {
 	}
 
 	Order orderFromResultSet(ResultSet itemsRs, ResultSet order) throws SQLException {
-		try (Connection connection = DriverManager.getConnection(jdbcConnectionUrl, username, password);
+		try (Connection connection = DBConnectionPool.getConnection();
 				Statement statement = connection.createStatement();) {
 			order.next();
 			Long id = order.getLong("id");
@@ -85,7 +68,7 @@ public class OrderDaoMysql implements Dao<Order> {
 	Item itemFromResultSet(ResultSet resultSet) throws SQLException {
 		Long id = resultSet.getLong("fk_item_id");
 		
-		try (Connection connection = DriverManager.getConnection(jdbcConnectionUrl, username, password);
+		try (Connection connection = DBConnectionPool.getConnection();
 				Statement statement = connection.createStatement();) {
 			String query = "SELECT * FROM items WHERE id=?";
 			PreparedStatement ps = connection.prepareStatement(query);
@@ -107,7 +90,7 @@ public class OrderDaoMysql implements Dao<Order> {
 
 	@Override
 	public List<Order> readAll() {
-		try (Connection connection = DriverManager.getConnection(jdbcConnectionUrl, username, password);
+		try (Connection connection = DBConnectionPool.getConnection();
 				Statement statement = connection.createStatement();
 				ResultSet resultSet = statement.executeQuery("SELECT * FROM orders");) {
 			ArrayList<Order> orders = new ArrayList<>();
@@ -139,7 +122,7 @@ public class OrderDaoMysql implements Dao<Order> {
 	}
 
 	public Order readLatest() {
-		try (Connection connection = DriverManager.getConnection(jdbcConnectionUrl, username, password);
+		try (Connection connection = DBConnectionPool.getConnection();
 				Statement statement = connection.createStatement();
 				ResultSet resultSet = statement.executeQuery("SELECT * FROM orders ORDER BY id DESC LIMIT 1");) {
 			resultSet.next();
@@ -152,7 +135,7 @@ public class OrderDaoMysql implements Dao<Order> {
 	}
 
 	public Order readOrder(Long id) {
-		try (Connection connection = DriverManager.getConnection(jdbcConnectionUrl, username, password);) {
+		try (Connection connection = DBConnectionPool.getConnection();) {
 
 			String queryOrderItems = "SELECT * FROM order_items WHERE fk_order_id=?";
 			String queryOrders = "SELECT * FROM orders WHERE id=?";
@@ -176,7 +159,7 @@ public class OrderDaoMysql implements Dao<Order> {
 
 	@Override
 	public Order create(Order order) {
-		try (Connection connection = DriverManager.getConnection(jdbcConnectionUrl, username, password);) {
+		try (Connection connection = DBConnectionPool.getConnection();) {
 			String query = "INSERT INTO orders(fk_customer_id) VALUES(?)";
 			PreparedStatement ps = connection.prepareStatement(query);
 			ps.setLong(1, order.getFkCustomerId());
@@ -196,7 +179,7 @@ public class OrderDaoMysql implements Dao<Order> {
 		LOGGER.info(order.toString());
 
 		if (order.isUpdateMode() == false || order.isUpdateMode() == true && order.isUpdate() == true) {
-			try (Connection connection = DriverManager.getConnection(jdbcConnectionUrl, username, password);) {
+			try (Connection connection = DBConnectionPool.getConnection();) {
 				String query = "INSERT INTO order_items(fk_order_id, fk_item_id, quantity) VALUES(?, ?, ?)";
 				PreparedStatement ps = connection.prepareStatement(query);
 				
@@ -218,7 +201,7 @@ public class OrderDaoMysql implements Dao<Order> {
 
 	@Override
 	public void delete(long id) {
-		try (Connection connection = DriverManager.getConnection(jdbcConnectionUrl, username, password);) {
+		try (Connection connection = DBConnectionPool.getConnection();) {
 			
 			String deleteFromOrdersQuery = "DELETE FROM orders WHERE id=?";
 			String deleteOrderItemsQuery = "DELETE FROM order_items WHERE fk_order_id=?";
@@ -239,7 +222,7 @@ public class OrderDaoMysql implements Dao<Order> {
 	}
 
 	public void delete(Long fk_order_id, Long fk_item_id) {
-		try (Connection connection = DriverManager.getConnection(jdbcConnectionUrl, username, password);) {
+		try (Connection connection = DBConnectionPool.getConnection();) {
 			String query = "DELETE FROM order_items WHERE fk_order_id=? AND fk_item_id=?";
 			
 			PreparedStatement ps = connection.prepareStatement(query);
@@ -256,7 +239,7 @@ public class OrderDaoMysql implements Dao<Order> {
 	}
 
 	public int calculateCost(Long id) {
-		try (Connection connection = DriverManager.getConnection(jdbcConnectionUrl, username, password);) {
+		try (Connection connection = DBConnectionPool.getConnection();) {
 			String query = "SELECT SUM(order_items.quantity*items.value) AS Cost "
 					+ "FROM customers JOIN orders ON customers.id=orders.fk_customer_id "
 					+ "JOIN order_items ON orders.id=order_items.fk_order_id "
