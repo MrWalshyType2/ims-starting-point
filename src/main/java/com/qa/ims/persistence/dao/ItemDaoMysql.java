@@ -1,7 +1,6 @@
 package com.qa.ims.persistence.dao;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -12,7 +11,6 @@ import org.apache.log4j.Logger;
 
 import com.qa.ims.persistence.domain.Item;
 import com.qa.ims.utils.DBConnectionPool;
-import com.qa.ims.utils.Utils;
 
 public class ItemDaoMysql implements Dao<Item> {
 
