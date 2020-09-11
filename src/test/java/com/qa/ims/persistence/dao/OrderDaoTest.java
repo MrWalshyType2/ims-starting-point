@@ -109,7 +109,7 @@ public class OrderDaoTest {
 	public void readOrderTest() {
 		OrderDaoMysql orderDao = new OrderDaoMysql(jdbcUrl, username, password);
 		CustomerDaoMysql customerDao = new CustomerDaoMysql();
-		ItemDaoMysql itemDao = new ItemDaoMysql(jdbcUrl, username, password);
+		ItemDaoMysql itemDao = new ItemDaoMysql();
 		Customer c1 = new Customer("Bob", "Perry");
 		c1 = customerDao.create(c1);
 		Long fkCustomerId = c1.getId();
@@ -129,7 +129,7 @@ public class OrderDaoTest {
 	public void readOrderFailTest() {
 		OrderDaoMysql orderDao = new OrderDaoMysql(jdbcUrl, username, password);
 		CustomerDaoMysql customerDao = new CustomerDaoMysql();
-		ItemDaoMysql itemDao = new ItemDaoMysql(jdbcUrl, username, password);
+		ItemDaoMysql itemDao = new ItemDaoMysql();
 		Customer c1 = new Customer("Bob", "Perry");
 		c1 = customerDao.create(c1);
 		Long fkCustomerId = c1.getId();
@@ -149,7 +149,7 @@ public class OrderDaoTest {
 	public void updateTest() {
 		OrderDaoMysql orderDao = new OrderDaoMysql(jdbcUrl, username, password);
 		CustomerDaoMysql customerDao = new CustomerDaoMysql();
-		ItemDaoMysql itemDao = new ItemDaoMysql(jdbcUrl, username, password);
+		ItemDaoMysql itemDao = new ItemDaoMysql();
 		Customer c1 = new Customer("Bob", "Perry");
 		c1 = customerDao.create(c1);
 		Long fkCustomerId = c1.getId();
@@ -168,7 +168,7 @@ public class OrderDaoTest {
 	public void updateFailTest() {
 		OrderDaoMysql orderDao = new OrderDaoMysql(jdbcUrl, username, password);
 		CustomerDaoMysql customerDao = new CustomerDaoMysql();
-		ItemDaoMysql itemDao = new ItemDaoMysql(jdbcUrl, username, password);
+		ItemDaoMysql itemDao = new ItemDaoMysql();
 		Customer c1 = new Customer("Bob", "Perry");
 		c1 = customerDao.create(c1);
 		Long fkCustomerId = c1.getId();
@@ -187,7 +187,7 @@ public class OrderDaoTest {
 	public void updateDeleteTest() {
 		OrderDaoMysql orderDao = new OrderDaoMysql(jdbcUrl, username, password);
 		CustomerDaoMysql customerDao = new CustomerDaoMysql();
-		ItemDaoMysql itemDao = new ItemDaoMysql(jdbcUrl, username, password);
+		ItemDaoMysql itemDao = new ItemDaoMysql();
 		Customer c1 = new Customer("Bob", "Perry");
 		c1 = customerDao.create(c1);
 		Long fkCustomerId = c1.getId();
@@ -207,7 +207,7 @@ public class OrderDaoTest {
 	public void deleteTest() {
 		OrderDaoMysql orderDao = new OrderDaoMysql(jdbcUrl, username, password);
 		CustomerDaoMysql customerDao = new CustomerDaoMysql();
-		ItemDaoMysql itemDao = new ItemDaoMysql(jdbcUrl, username, password);
+		ItemDaoMysql itemDao = new ItemDaoMysql();
 		Customer c1 = new Customer("Bob", "Perry");
 		c1 = customerDao.create(c1);
 		Long fkCustomerId = c1.getId();
@@ -221,7 +221,7 @@ public class OrderDaoTest {
 	public void deleteFailTest() {
 		OrderDaoMysql orderDao = new OrderDaoMysql(jdbcUrl, username, password);
 		CustomerDaoMysql customerDao = new CustomerDaoMysql();
-		ItemDaoMysql itemDao = new ItemDaoMysql(jdbcUrl, username, password);
+		ItemDaoMysql itemDao = new ItemDaoMysql();
 		Customer c1 = new Customer("Bob", "Perry");
 		c1 = customerDao.create(c1);
 		Long fkCustomerId = c1.getId();
@@ -234,7 +234,7 @@ public class OrderDaoTest {
 	public void deleteItemTest() {
 		OrderDaoMysql orderDao = new OrderDaoMysql(jdbcUrl, username, password);
 		CustomerDaoMysql customerDao = new CustomerDaoMysql();
-		ItemDaoMysql itemDao = new ItemDaoMysql(jdbcUrl, username, password);
+		ItemDaoMysql itemDao = new ItemDaoMysql();
 		Customer c1 = new Customer("Bob", "Perry");
 		c1 = customerDao.create(c1);
 		Long fkCustomerId = c1.getId();
