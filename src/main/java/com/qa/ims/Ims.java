@@ -104,12 +104,6 @@ public class Ims {
 	 * @param password
 	 */
 	public void init(String username, String password) {
-		try (FileInputStream inputStream = new FileInputStream("src/main/resources/" + Utils.getPropFileName())) {
-			Utils.initProperties(inputStream);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
 		init("jdbc:mysql://" + Utils.MYSQL_URL + "/?serverTimezone=UTC", username, password,
 				"src/main/resources/sql-schema.sql");
 	}
