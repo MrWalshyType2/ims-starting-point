@@ -192,16 +192,19 @@ public class OrderDaoMysql implements Dao<Order> {
 
 	@Override
 	public Order update(Order order) {
-		Item item = order.getItem();
-		int quantity = order.getItemQuantity();
-		
+		Item item = order.getItem();		
 		LOGGER.info(order.toString());
 
 		if (order.isUpdateMode() == false || order.isUpdateMode() == true && order.isUpdate() == true) {
-			try (Connection connection = DriverManager.getConnection(jdbcConnectionUrl, username, password);
-					Statement statement = connection.createStatement();) {
-				statement.executeUpdate("INSERT INTO order_items(fk_order_id, fk_item_id, quantity)" + "VALUES("
-						+ order.getId() + ", " + item.getId() + ", " + quantity + ")");
+			try (Connection connection = DriverManager.getConnection(jdbcConnectionUrl, username, password);) {
+				String query = "INSERT INTO order_items(fk_order_id, fk_item_id, quantity) VALUES(?, ?, ?)";
+				PreparedStatement ps = connection.prepareStatement(query);
+				
+				ps.setLong(1, order.getId());
+				ps.setLong(2, item.getId());
+				ps.setInt(3, order.getItemQuantity());
+				ps.executeUpdate();
+				
 				return readOrder(order.getId());
 			} catch (Exception e) {
 				LOGGER.debug(e.getStackTrace());
