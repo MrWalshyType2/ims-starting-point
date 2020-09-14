@@ -7,6 +7,8 @@ import java.util.List;
  * Takes in inputs for each action to be sent to a service class
  */
 public interface CrudController<T> {
+	
+	T read();
     
     List<T> readAll();
      

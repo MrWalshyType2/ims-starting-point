@@ -27,6 +27,13 @@ public class CustomerController implements CrudController<Customer>{
 		return Utils.getInput();
 	}
 	
+	@Override
+	public Customer read() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
 	/**
 	 * Reads all customers to the logger
 	 */

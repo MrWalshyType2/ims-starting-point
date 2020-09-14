@@ -26,6 +26,12 @@ public class OrderController implements CrudController<Order> {
 	}
 
 	@Override
+	public Order read() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
 	public List<Order> readAll() {
 		List<Order> orders = orderService.readAll();
 		for (Order order : orders) {

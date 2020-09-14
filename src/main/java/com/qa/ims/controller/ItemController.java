@@ -23,6 +23,12 @@ public class ItemController implements CrudController<Item> {
 	}
 
 	@Override
+	public Item read() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
 	public List<Item> readAll() {
 		List<Item> items = itemService.readAll();
 		for (Item item : items) {
