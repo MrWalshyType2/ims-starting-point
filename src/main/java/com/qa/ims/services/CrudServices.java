@@ -3,6 +3,8 @@ package com.qa.ims.services;
 import java.util.List;
 
 public interface CrudServices<T> {
+	
+	T read(Long id);
 
 	public List<T> readAll();
 

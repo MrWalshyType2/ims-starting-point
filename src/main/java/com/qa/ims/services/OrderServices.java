@@ -14,6 +14,12 @@ public class OrderServices implements CrudServices<Order> {
 	}
 
 	@Override
+	public Order read(Long id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
 	public List<Order> readAll() {
 		return orderDao.readAll();
 	}

@@ -14,6 +14,12 @@ public class ItemServices implements CrudServices<Item> {
 	}
 
 	@Override
+	public Item read(Long id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
 	public List<Item> readAll() {
 		return itemDao.readAll();
 	}

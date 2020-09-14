@@ -13,6 +13,12 @@ public class CustomerServices implements CrudServices<Customer> {
 		this.customerDao = customerDao;
 	}
 	
+	@Override
+	public Customer read(Long id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	public List<Customer> readAll() {
 		return customerDao.readAll();
 	}
