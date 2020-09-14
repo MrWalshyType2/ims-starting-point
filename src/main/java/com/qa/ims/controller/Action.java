@@ -12,7 +12,6 @@ import com.qa.ims.utils.Utils;
 public enum Action {
 	CREATE("To save a new item into the database"), READ("To read an item from the database"),
 	UPDATE("To change an item already in the database"), DELETE("To remove an item from the database"),
-	LOGIN("To login to a user account"), SIGNUP("To create an account"), 
 	RETURN("To return to domain selection");
 
 	public static final Logger LOGGER = Logger.getLogger(Action.class);
