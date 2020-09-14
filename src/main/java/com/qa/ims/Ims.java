@@ -18,6 +18,7 @@ import com.qa.ims.controller.OrderController;
 import com.qa.ims.persistence.dao.CustomerDaoMysql;
 import com.qa.ims.persistence.dao.ItemDaoMysql;
 import com.qa.ims.persistence.dao.OrderDaoMysql;
+import com.qa.ims.persistence.domain.Customer;
 import com.qa.ims.persistence.domain.Domain;
 import com.qa.ims.services.CustomerServices;
 import com.qa.ims.services.ItemServices;
@@ -26,6 +27,9 @@ import com.qa.ims.utils.DBConnectionPool;
 import com.qa.ims.utils.Utils;
 
 public class Ims {
+	
+	public Customer customer = null;
+	public String role = null;
 
 	public static final Logger LOGGER = Logger.getLogger(Ims.class);
 
@@ -33,14 +37,38 @@ public class Ims {
 		init("src/main/resources/sql-schema.sql");
 
 		while (true) {
+			while (customer == null) {
+				LOGGER.info("Please signup and/or login...");
+				Domain.printAuthDomains();
+				
+				Domain domain = Domain.getDomain();
+				
+				switch (domain) {
+				case STOP:
+					System.exit(0);
+					break;
+				case LOGIN:
+
+					break;
+				case SIGNUP:
+					
+					break;
+				default:
+					break;
+				}
+				
+				if (customer != null) {
+					break;
+				}
+			}
+			
 			LOGGER.info("Which entity would you like to use?");
 			Domain.printDomains();
 
 			Domain domain = Domain.getDomain();
-
 			if (domain.equals(Domain.STOP)) {
 				LOGGER.info("Shutting down...");
-				break;
+				System.exit(0);
 			}
 
 			LOGGER.info("What would you like to do with " + domain.name().toLowerCase() + ":");

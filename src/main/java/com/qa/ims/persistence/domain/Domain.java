@@ -27,7 +27,16 @@ public enum Domain {
 	
 	public static void printDomains() {
 		for (Domain domain : Domain.values()) {
+			if (domain.equals(Domain.LOGIN) || domain.equals(Domain.SIGNUP)) continue;
 			LOGGER.info(domain.getDescription());
+		}
+	}
+	
+	public static void printAuthDomains() {
+		for (Domain domain : Domain.values()) {
+			if (domain.equals(Domain.LOGIN) || domain.equals(Domain.SIGNUP) || domain.equals(Domain.STOP)) {
+				LOGGER.info(domain.getDescription());
+			}
 		}
 	}
 	
