@@ -27,6 +27,12 @@ public class CustomerDaoMysql implements Dao<Customer> {
 		return new Customer(id, firstName, surname);
 	}
 
+	@Override
+	public Customer read(Long id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	/**
 	 * Reads all customers from the database
 	 *

@@ -3,6 +3,8 @@ package com.qa.ims.persistence.dao;
 import java.util.List;
 
 public interface Dao<T> {
+	
+	T read(Long id);
 
     List<T> readAll();
      

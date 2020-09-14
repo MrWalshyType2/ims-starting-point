@@ -89,6 +89,12 @@ public class OrderDaoMysql implements Dao<Order> {
 	}
 
 	@Override
+	public Order read(Long id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
 	public List<Order> readAll() {
 		try (Connection connection = DBConnectionPool.getConnection();
 				Statement statement = connection.createStatement();

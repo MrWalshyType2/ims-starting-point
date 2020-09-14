@@ -29,6 +29,12 @@ public class ItemDaoMysql implements Dao<Item> {
 	}
 
 	@Override
+	public Item read(Long id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
 	public ArrayList<Item> readAll() {
 		try (Connection connection = DBConnectionPool.getConnection();
 				Statement statement = connection.createStatement();
