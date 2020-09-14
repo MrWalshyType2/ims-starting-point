@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -26,6 +27,19 @@ public class LoginDao implements Dao<Customer> {
 		String surname = resultSet.getString("surname");
 		return new Customer(id, firstName, surname);
 	}
+	
+	private Customer readLatest() {
+		try (Connection connection = DBConnectionPool.getConnection();
+				Statement statement = connection.createStatement();
+				ResultSet resultSet = statement.executeQuery("SELECT * FROM customers ORDER BY id DESC LIMIT 1");) {
+			resultSet.next();
+			return customerFromResultSet(resultSet);
+		} catch (Exception e) {
+			LOGGER.debug(e.getStackTrace());
+			LOGGER.error(e.getMessage());
+		}
+		return null;
+	}
 
 	@Override
 	public Customer read(Long id) {
@@ -40,6 +54,7 @@ public class LoginDao implements Dao<Customer> {
 			ps.setString(1, username);
 			
 			ResultSet rs = ps.executeQuery();
+			if (!rs.next()) throw new Exception("Username not found");
 			rs.next();
 			Customer customer = customerFromResultSet(rs);
 			
@@ -48,7 +63,7 @@ public class LoginDao implements Dao<Customer> {
 			}
 			return null;
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOGGER.error(e.getMessage());
 			return null;
 		}
 	}
@@ -60,9 +75,22 @@ public class LoginDao implements Dao<Customer> {
 	}
 
 	@Override
-	public Customer create(Customer t) {
-		// TODO Auto-generated method stub
-		return null;
+	public Customer create(Customer customer) {
+		try (Connection connection = DBConnectionPool.getConnection()) {
+			String query = "INSERT INTO customers(first_name, surname, username, password) VALUES(?, ?, ?, ?)";
+			PreparedStatement ps = connection.prepareStatement(query);
+			
+			ps.setString(1, customer.getFirstName());
+			ps.setString(2, customer.getSurname());
+			ps.setString(3, customer.getUsername());
+			ps.setString(4, customer.getPassword());
+			ps.executeUpdate();
+			
+			return readLatest();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 	@Override

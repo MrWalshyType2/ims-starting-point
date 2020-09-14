@@ -37,8 +37,20 @@ public class LoginController implements CrudController<Customer> {
 
 	@Override
 	public Customer create() {
-		// TODO Auto-generated method stub
-		return null;
+		LOGGER.info("Please enter your forename:");
+		String forename = getInput();
+		LOGGER.info("Please enter your surname:");
+		String surname = getInput();
+		Customer customer = new Customer(forename, surname);
+		
+		LOGGER.info("Please enter a username:");
+		String username = getInput();
+		LOGGER.info("Please enter a password:");
+		String password = getInput();
+		customer.setUsername(username);
+		customer.setPassword(password);
+		
+		return loginDao.create(customer);
 	}
 
 	@Override

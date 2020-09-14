@@ -53,10 +53,10 @@ public class Ims {
 					System.exit(0);
 					break;
 				case LOGIN:
-					Customer stored = loginController.read();
+					customer = loginController.read();
 					break;
 				case SIGNUP:
-					
+					customer = loginController.create();
 					break;
 				default:
 					break;
