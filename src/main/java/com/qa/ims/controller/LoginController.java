@@ -8,7 +8,7 @@ import com.qa.ims.persistence.domain.Customer;
 import com.qa.ims.services.CrudServices;
 import com.qa.ims.services.ReadUsername;
 
-public class LoginController implements CrudController<Customer>, ReadUsername<Customer> {
+public class LoginController implements CrudController<Customer> {
 
 	public static final Logger LOGGER = Logger.getLogger(LoginController.class);
 
@@ -16,12 +16,6 @@ public class LoginController implements CrudController<Customer>, ReadUsername<C
 	
 	public LoginController(CrudServices<Customer> loginService) {
 		this.loginService = loginService;
-	}
-	
-	@Override
-	public Customer readByUsername(String username) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override
