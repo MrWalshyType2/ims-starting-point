@@ -25,7 +25,13 @@ public class LoginDao implements Dao<Customer> {
 		Long id = resultSet.getLong("id");
 		String firstName = resultSet.getString("first_name");
 		String surname = resultSet.getString("surname");
-		return new Customer(id, firstName, surname);
+		String username = resultSet.getString("surname");
+		String password = resultSet.getString("password");
+		
+		Customer customer = new Customer(id, firstName, surname);
+		customer.setUsername(username);
+		customer.setPassword(password);
+		return customer;
 	}
 	
 	private Customer readLatest() {
@@ -55,7 +61,6 @@ public class LoginDao implements Dao<Customer> {
 			
 			ResultSet rs = ps.executeQuery();
 			if (!rs.next()) throw new Exception("Username not found");
-			rs.next();
 			Customer customer = customerFromResultSet(rs);
 			
 			if (customer.getPassword().contentEquals(password)) {
@@ -64,6 +69,7 @@ public class LoginDao implements Dao<Customer> {
 			return null;
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
+			e.printStackTrace();
 			return null;
 		}
 	}
