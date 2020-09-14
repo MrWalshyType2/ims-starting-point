@@ -25,7 +25,6 @@ import com.qa.ims.persistence.domain.Domain;
 import com.qa.ims.services.CrudServices;
 import com.qa.ims.services.CustomerServices;
 import com.qa.ims.services.ItemServices;
-import com.qa.ims.services.LoginServices;
 import com.qa.ims.services.OrderServices;
 import com.qa.ims.utils.DBConnectionPool;
 import com.qa.ims.utils.Utils;
@@ -47,14 +46,14 @@ public class Ims {
 				
 				Domain domain = Domain.getDomain();
 				
-				LoginController loginController = new LoginController(new LoginServices(new LoginDao()));
+				LoginController loginController = new LoginController(new LoginDao());
 				
 				switch (domain) {
 				case STOP:
 					System.exit(0);
 					break;
 				case LOGIN:
-
+					Customer stored = loginController.read();
 					break;
 				case SIGNUP:
 					
@@ -65,6 +64,8 @@ public class Ims {
 				
 				if (customer != null) {
 					break;
+				} else {
+					LOGGER.info("Unsuccessful " + domain.name());
 				}
 			}
 			

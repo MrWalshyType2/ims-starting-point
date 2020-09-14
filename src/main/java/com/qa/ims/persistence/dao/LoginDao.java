@@ -1,26 +1,56 @@
 package com.qa.ims.persistence.dao;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 
 import org.apache.log4j.Logger;
 
 import com.qa.ims.persistence.domain.Customer;
-import com.qa.ims.services.ReadUsername;
+import com.qa.ims.utils.DBConnectionPool;
+import com.qa.ims.utils.Utils;
 
-public class LoginDao implements Dao<Customer>, ReadUsername<Customer> {
+public class LoginDao implements Dao<Customer> {
 	
 	public static final Logger LOGGER = Logger.getLogger(LoginDao.class);
-
-	@Override
-	public Customer readByUsername(String username) {
-		// TODO Auto-generated method stub
-		return null;
+	
+	public String getInput() {
+		return Utils.getInput();
+	}
+	
+	private Customer customerFromResultSet(ResultSet resultSet) throws SQLException {
+		Long id = resultSet.getLong("id");
+		String firstName = resultSet.getString("first_name");
+		String surname = resultSet.getString("surname");
+		return new Customer(id, firstName, surname);
 	}
 
 	@Override
 	public Customer read(Long id) {
-		// TODO Auto-generated method stub
-		return null;
+		LOGGER.info("Please enter your username:");
+		String username = getInput();
+		LOGGER.info("Please enter your password:");
+		String password = getInput();
+		
+		try (Connection connection = DBConnectionPool.getConnection()) {
+			String query = "SELECT * FROM customers WHERE username=?";
+			PreparedStatement ps = connection.prepareStatement(query);
+			ps.setString(1, username);
+			
+			ResultSet rs = ps.executeQuery();
+			rs.next();
+			Customer customer = customerFromResultSet(rs);
+			
+			if (customer.getPassword().contentEquals(password)) {
+				return customer;
+			}
+			return null;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 	@Override
