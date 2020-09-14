@@ -63,9 +63,11 @@ public class Ims {
 				}
 				
 				if (customer != null) {
+					LOGGER.info(domain.name() + " SUCCESS");
+					LOGGER.info("Welcome " + customer.getFirstName() + ", ID: " + customer.getId());
 					break;
 				} else {
-					LOGGER.info("Unsuccessful " + domain.name());
+					LOGGER.error("Unsuccessful " + domain.name());
 				}
 			}
 			
