@@ -4,9 +4,9 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 import org.apache.log4j.Logger;
 
@@ -22,22 +22,25 @@ import com.qa.ims.persistence.dao.LoginDao;
 import com.qa.ims.persistence.dao.OrderDaoMysql;
 import com.qa.ims.persistence.domain.Customer;
 import com.qa.ims.persistence.domain.Domain;
-import com.qa.ims.services.CrudServices;
 import com.qa.ims.services.CustomerServices;
 import com.qa.ims.services.ItemServices;
 import com.qa.ims.services.OrderServices;
 import com.qa.ims.utils.DBConnectionPool;
-import com.qa.ims.utils.Utils;
+import com.qa.ims.utils.Observable;
+import com.qa.ims.utils.Observer;
 
-public class Ims {
+public class Ims extends Observable {
 	
-	public Customer customer = null;
-	public String role = null;
-
 	public static final Logger LOGGER = Logger.getLogger(Ims.class);
+	
+	private Customer customer = null;
+	private String role = "CUSTOMER";
 
 	public void imsSystem() {
 		init("src/main/resources/sql-schema.sql");
+		ImsObserver imsObserver = new ImsObserver(this);
+		imsObserver.setRole(role); // Remove this, just for testing if it works
+		this.add(imsObserver);
 
 		while (true) {
 			while (customer == null) {
@@ -65,6 +68,7 @@ public class Ims {
 				if (customer != null) {
 					LOGGER.info(domain.name() + " SUCCESS");
 					LOGGER.info("Welcome " + customer.getFirstName() + ", ID: " + customer.getId());
+					this.notifyObservers();
 					break;
 				} else {
 					LOGGER.error("Unsuccessful " + domain.name());
@@ -87,7 +91,7 @@ public class Ims {
 			switch (domain) {
 			case CUSTOMER:
 				CustomerController customerController = new CustomerController(
-						new CustomerServices(new CustomerDaoMysql()));
+						new CustomerServices(new CustomerDaoMysql()), imsObserver);
 				doAction(customerController, action);
 				break;
 			case ITEM:
@@ -164,6 +168,14 @@ public class Ims {
 			}
 			LOGGER.error(e.getMessage());
 		}
+	}
+
+	public Customer getCustomer() {
+		return customer;
+	}
+
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
 	}
 
 }

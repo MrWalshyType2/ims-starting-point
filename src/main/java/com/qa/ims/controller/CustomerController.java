@@ -1,11 +1,14 @@
 package com.qa.ims.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
 
+import com.qa.ims.ImsObserver;
 import com.qa.ims.persistence.domain.Customer;
 import com.qa.ims.services.CrudServices;
+import com.qa.ims.utils.Observer;
 import com.qa.ims.utils.Utils;
 
 /**
@@ -17,9 +20,11 @@ public class CustomerController implements CrudController<Customer>{
 	public static final Logger LOGGER = Logger.getLogger(CustomerController.class);
 	
 	private CrudServices<Customer> customerService;
+	private ImsObserver imsObserver;
 	
-	public CustomerController(CrudServices<Customer> customerService) {
+	public CustomerController(CrudServices<Customer> customerService, ImsObserver o) {
 		this.customerService = customerService;
+		this.imsObserver = o;
 	}
 	
 
@@ -27,9 +32,30 @@ public class CustomerController implements CrudController<Customer>{
 		return Utils.getInput();
 	}
 	
+	private boolean checkAdminRole() {
+		if (imsObserver.getRole() == null) return false;
+		if (imsObserver.getRole().equalsIgnoreCase("ADMIN")) {
+			return true;
+		}
+		return false;
+	}
+	
+	private boolean checkCustomerRole() {
+		if (imsObserver.getRole() == null) return false;
+		if (imsObserver.getRole().equalsIgnoreCase("CUSTOMER")) {
+			return true;
+		}
+		return false;
+	}
+	
 	@Override
 	public Customer read() {
-		// TODO Auto-generated method stub
+		if (checkAdminRole()) {
+			// Something here for admins
+		} else if (checkCustomerRole()) {
+			// for customers
+			return imsObserver.getCustomer();
+		}
 		return null;
 	}
 
@@ -39,11 +65,22 @@ public class CustomerController implements CrudController<Customer>{
 	 */
 	@Override
 	public List<Customer> readAll() {
-		List<Customer> customers = customerService.readAll();
-		for(Customer customer: customers) {
-			LOGGER.info(customer.toString());
+		if (checkAdminRole()) {
+			List<Customer> customers = customerService.readAll();
+			for(Customer customer: customers) {
+				LOGGER.info(customer.toString());
+			}
+			return customers;
+		} else if (checkCustomerRole()) {
+			// for customers
+			ArrayList<Customer> customers = new ArrayList<>();
+			Customer customer = imsObserver.getCustomer();
+
+			LOGGER.info(customer);
+			return customers;
 		}
-		return customers;
+		return null;
+		
 	}
 
 	/**
